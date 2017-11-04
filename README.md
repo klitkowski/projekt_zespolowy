@@ -1,5 +1,7 @@
 # Projekt zespołowy
 
+[Slack](https://projektzespolowygroup.slack.com)
+
 ## Dokumentacje
 
 [Python3](https://docs.python.org/3/)
