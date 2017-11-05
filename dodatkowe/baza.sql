@@ -1,3 +1,9 @@
+-- DROP DATABASE systemsm;
+
+CREATE DATABASE systemsm;
+
+ALTER DATABASE systemsm OWNER TO systemuser;
+
 CREATE TABLE adres (
     id INTEGER NOT NULL,
     kod_pocztowy TEXT NOT NULL,
@@ -20,7 +26,7 @@ ALTER TABLE budynek OWNER TO systemuser;
 
 CREATE TABLE faktura (
     id INTEGER NOT NULL,
-    wartosc_netto INTEGER NOT NULL,
+    wartosc_netto DOUBLE PRECISION NOT NULL,
     wystawca INTEGER NOT NULL, 
     adres INTEGER NOT NULL,
     wlasciciel INTEGER NOT NULL
@@ -31,7 +37,7 @@ ALTER TABLE faktura OWNER TO systemuser;
 CREATE TABLE licznik (
     id INTEGER NOT NULL,
     typ TEXT NOT NULL,
-    cena_netto double precision NOT NULL
+    cena_netto DOUBLE PRECISION NOT NULL
 );
 
 ALTER TABLE licznik OWNER TO systemuser;
@@ -39,9 +45,9 @@ ALTER TABLE licznik OWNER TO systemuser;
 CREATE TABLE mieszkanie (
     id INTEGER NOT NULL,
     budynek INTEGER NOT NULL,
-    metraz INTEGER NOT NULL,
+    metraz DOUBLE PRECISION NOT NULL,
     liczba_pokoi INTEGER NOT NULL,
-    piwnica INTEGER NOT NULL,
+    piwnica BOOLEAN NOT NULL,
     wlasciciel INTEGER
 );
 
@@ -50,7 +56,7 @@ ALTER TABLE mieszkanie OWNER TO systemuser;
 CREATE TABLE nadgodziny (
     id INTEGER NOT NULL,
     pracownik INTEGER NOT NULL,
-    ilosc INTEGER NOT NULL
+    ilosc DOUBLE PRECISION NOT NULL
 );
 
 ALTER TABLE nadgodziny OWNER TO systemuser;
@@ -70,7 +76,7 @@ CREATE TABLE stan_licznik (
     id INTEGER NOT NULL,
     typ INTEGER NOT NULL,
     mieszkanie INTEGER NOT NULL,
-    stan double precision NOT NULL
+    stan DOUBLE PRECISION NOT NULL
 );
 
 ALTER TABLE stan_licznik OWNER TO systemuser;
@@ -97,7 +103,7 @@ CREATE TABLE wlasciciel (
     imie TEXT NOT NULL,
     nazwisko TEXT NOT NULL, 
     adres INTEGER NOT NULL
-);
+date);
 
 
 ALTER TABLE wlasciciel OWNER TO systemuser;
@@ -106,7 +112,7 @@ CREATE TABLE wydarzenie (
     id INTEGER NOT NULL,
     nazwa TEXT NOT NULL,
     opis TEXT NOT NULL,
-    data date NOT NULL,
+    data DATE NOT NULL,
     budynek INTEGER
 );
 
