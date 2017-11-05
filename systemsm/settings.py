@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'systemsm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'system',
+        'NAME': 'systemsm',
         'USER': 'systemuser',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'randompassword',
+        'HOST': '13.94.252.29',
         'PORT': '',
     }
 }
