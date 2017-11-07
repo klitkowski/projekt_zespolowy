@@ -72,5 +72,20 @@ def tickets(request):
 
 
 def add_ticket(request):
-
-    return render(request, 'add_ticket.html', context)
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = TicketForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.opis = request.POST.get('nazwa')
+                # FIX IT! post.mieszkaniec.id = request.user.id
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano zgłoszenie!')
+                return redirect('index', event_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_ticket.html')
