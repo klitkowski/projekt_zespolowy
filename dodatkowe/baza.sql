@@ -18,8 +18,7 @@ ALTER TABLE adres OWNER TO systemuser;
 CREATE TABLE budynek (
     id INTEGER NOT NULL, 
     adres INTEGER NOT NULL, 
-    administrator INTEGER NOT NULL,
-    wydarzenia INTEGER NOT NULL
+    administrator INTEGER NOT NULL
 );
 
 ALTER TABLE budynek OWNER TO systemuser;

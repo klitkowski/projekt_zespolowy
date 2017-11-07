@@ -26,7 +26,6 @@ class Budynek(models.Model):
     id = models.AutoField(primary_key=True)
     adres = models.ForeignKey(Adres, models.DO_NOTHING, db_column='adres', related_name='+')
     administrator = models.ForeignKey('Pracownik', models.DO_NOTHING, db_column='administrator', related_name='+')
-    wydarzenia = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'budynek'

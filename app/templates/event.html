@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<li>{{ this_event.nazwa }}</li>
+<li>{{ this_event.opis }}</li>
+<li>{{ this_event.data }}</li>
+{% if this_event.budynek.adres %}
+<li>{{ this_event.budynek.adres.kod_pocztowy }} {{ this_event.budynek.adres.miasto}} ul. {{ this_event.budynek.adres.ulica }}</li>
+{% endif %}
+
+{% endblock content %}

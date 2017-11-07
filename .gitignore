@@ -1,3 +1,5 @@
-systemsm/__pycache__
-app/__pycache__
+systemsm/__pycache__/*
+app/__pycache__/*
+app/migrations/__pycache__/*
+app/templatetags/__pycache__/*
 *.bak

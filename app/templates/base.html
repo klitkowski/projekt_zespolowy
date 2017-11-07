@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>SYSTEMsM</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300" rel="stylesheet" type="text/css"> 
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static " favicon.ico " %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-grid.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/custom.css" %}">
+    <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "js/popper.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md bg-faded">
+        <a class="navbar-brand abs" href="/">SYSTEMsM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="collapsingNavbar">
+            <ul class="navbar-nav">
+                {% load app_filters %}
+                {% if request.user|in_group:"Administrator Budynku" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/add/event">Dodaj wydarzenie</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <strong>
+                        </string>
+                        <span class="nav-link disabled">Witaj, {{ user.get_username }}.</span>
+                    </strong>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Wyloguj</a>
+                </li>
+                <li class="nav-item">
+                    {% else %}
+                    <a class="nav-link " href="/login">Zaloguj</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% include "messages.html" %} 
+    {% block content %} 
+    {% endblock %}
+</body>
+
+</html>
