@@ -91,7 +91,7 @@ ALTER TABLE stanowisko OWNER TO systemuser;
 CREATE TABLE ticket (
     id INTEGER NOT NULL,
     kto INTEGER NOT NULL,
-    mieszkanie INTEGER NOT NULL,
+    mieszkaniec INTEGER NOT NULL,
     opis TEXT NOT NULL
 );
 
@@ -99,7 +99,7 @@ ALTER TABLE ticket OWNER TO systemuser;
 
 CREATE TABLE wlasciciel (
     id INTEGER NOT NULL,
-    imie TEXT NOT NULL,
+    imie TEXT,
     nazwisko TEXT NOT NULL, 
     adres INTEGER NOT NULL
 date);

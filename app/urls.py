@@ -20,4 +20,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^event/(?P<event_id>[0-9]+)/$', views.event, name='event'),
     url(r'^add/event/$', views.add_event, name='add_event'),
+    url(r'^ticket/(?P<ticket_id>[0-9]+)/$', views.ticket, name='ticket'),
+    url(r'^tickets/$', views.tickets, name='tickets'),
+    url(r'^add/ticket/$', views.add_ticket, name='add_ticket'),
 ]

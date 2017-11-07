@@ -29,7 +29,6 @@ def add_event(request):
         context = {'building_list': building_list}
         if request.method == 'POST':
             form = EventForm(request.POST)
-            print(form)
             if form.is_valid():
                 post = form.save(commit=False)
                 post.nazwa = request.POST.get('opis')
@@ -46,3 +45,32 @@ def add_event(request):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_event.html', context)
+
+
+def ticket(request, ticket_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            this_ticket = Ticket.objects.get(id=ticket_id)
+            context = {'this_ticket': this_ticket}
+        except Ticket.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Ticket nie istnieje!')
+            return redirect('index')
+        return render(request, 'ticket.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def tickets(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        tickets_list = Ticket.objects.all().order_by('-id')
+        context = {'tickets_list': tickets_list}
+        return render(request, 'tickets.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def add_ticket(request):
+
+    return render(request, 'add_ticket.html', context)
