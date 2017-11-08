@@ -2,6 +2,13 @@
 {% block content %}
 <form method="POST" class="post-form">
     {% csrf_token %}
+    {% if user.is_authenticated %}
+    <p>Zostaniesz podpisany jako: {{ user.username }}</p>
+    {% else %}
+    <div class="form-group">
+        <input class="form-control" id="id kto" name="kto" placeholder="Imie i Nazwisko" required></input>
+    </div>
+    {% endif %}
     <div class="form-group">
         <textarea cols="20" class="form-control" id="id opis" name="opis" placeholder="Opis wydarzenia" required></textarea>
     </div>

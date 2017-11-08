@@ -2,9 +2,7 @@
 
 {% block content %}
 
+<li>{{ this_ticket.kto }}</li>
 <li>{{ this_ticket.opis }}</li>
-<li>{{ this_ticket.kto.imie }} {{ this_ticket.kto.nazwisko }} {{ this_ticket.kto.adres.telefon }} {{ this_ticket.kto.adres.email }}</li>
-<li>{{ this_ticket.mieszkaniec }}</li>
-
 
 {% endblock content %}

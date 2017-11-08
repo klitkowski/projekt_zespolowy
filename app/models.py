@@ -115,8 +115,7 @@ class Wlasciciel(models.Model):
 
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
-    kto = models.ForeignKey(Pracownik, models.DO_NOTHING, db_column='kto', blank=True, related_name='+')
-    mieszkaniec = models.ForeignKey(Wlasciciel, models.DO_NOTHING, db_column='mieszkaniec', blank=True, null=True, related_name='+')
+    kto = models.TextField(default=None, null=True, blank=True)
     opis = models.TextField()
 
     class Meta:

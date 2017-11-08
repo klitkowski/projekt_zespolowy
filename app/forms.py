@@ -11,4 +11,4 @@ class EventForm(forms.ModelForm):
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('kto', 'mieszkaniec', 'opis')
+        fields = ('kto', 'opis')
