@@ -2,7 +2,23 @@
 
 {% block content %}
 
-<li>{{ this_ticket.kto }}</li>
+<li>{{ this_ticket.zglaszajacy }}</li>
 <li>{{ this_ticket.opis }}</li>
+{% if this_ticket.pracownik %}
+<li>Przyjęty przez: {{ this_ticket.pracownik }}</li>
+<form action="{% url 'delete_ticket' this_ticket.id %}" method="POST">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    {% endif %}
+</form>
+{% else %}
+<form method="POST" class="post-form">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+    <button type="submit" class="btn btn-primary">Przyjmij zgłoszenie</button>
+    {% endif %}
+</form>
+{% endif %}
 
 {% endblock content %}

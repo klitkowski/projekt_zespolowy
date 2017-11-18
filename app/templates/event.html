@@ -8,5 +8,11 @@
 {% if this_event.budynek.adres %}
 <li>{{ this_event.budynek.adres.kod_pocztowy }} {{ this_event.budynek.adres.miasto}} ul. {{ this_event.budynek.adres.ulica }}</li>
 {% endif %}
+<form action="{% url 'delete_event' this_event.id %}" method="POST">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    {% endif %}
+</form>
 
 {% endblock content %}

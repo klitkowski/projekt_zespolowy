@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^ticket/(?P<ticket_id>[0-9]+)/$', views.ticket, name='ticket'),
     url(r'^tickets/$', views.tickets, name='tickets'),
     url(r'^add/ticket/$', views.add_ticket, name='add_ticket'),
+    url(r'^delete/ticket/(?P<ticket_id>[0-9]+)/$', views.delete_ticket, name='delete_ticket'),
+    url(r'^delete/event/(?P<event_id>[0-9]+)/$', views.delete_event, name='delete_event')
 ]

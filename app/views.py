@@ -3,6 +3,7 @@ from app.forms import *
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
+from django.utils.encoding import smart_text
 
 # User in group: request.user.groups.filter(name='group_name').exists()
 
@@ -31,8 +32,8 @@ def add_event(request):
             form = EventForm(request.POST)
             if form.is_valid():
                 post = form.save(commit=False)
-                post.nazwa = request.POST.get('opis')
-                post.opis = request.POST.get('nazwa')
+                post.opis = request.POST.get('opis')
+                post.nazwa = request.POST.get('nazwa')
                 post.data = request.POST.get('data')
                 post.budynek.id = request.POST.get('budynek')
                 post.save()
@@ -48,6 +49,10 @@ def add_event(request):
 
 
 def ticket(request, ticket_id):
+    if request.method == 'POST':
+        Ticket.objects.filter(id=ticket_id).update(pracownik=smart_text(request.user, encoding='utf-8', strings_only=False, errors='strict'))
+        messages.add_message(request, messages.SUCCESS, 'Pomyślnie przypisano pracownika!')
+        return redirect('ticket', ticket_id=ticket_id)
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
             this_ticket = Ticket.objects.get(id=ticket_id)
@@ -78,9 +83,9 @@ def add_ticket(request):
             post = form.save(commit=False)
             post.opis = request.POST.get('opis')
             if request.user.is_authenticated:
-                post.kto = request.user
+                post.zglaszajacy = request.user
             else:
-                post.kto = request.POST.get('kto')
+                post.zglaszajacy = request.POST.get('zglaszajacy')
             post.save()
             messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano zgłoszenie!')
             return redirect('index')
@@ -88,3 +93,17 @@ def add_ticket(request):
             messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
             return redirect('index')
     return render(request, 'add_ticket.html')
+
+
+def delete_ticket(request, ticket_id):
+    post = Ticket.objects.get(id=ticket_id)
+    post.delete()
+    messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
+    return redirect('index')
+
+
+def delete_event(request, event_id):
+    post = Event.objects.get(id=event_id)
+    post.delete()
+    messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
+    return redirect('index')
