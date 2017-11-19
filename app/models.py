@@ -12,19 +12,19 @@ class Adres(models.Model):
         db_table = 'adres'
 
 
-class Adres_budynek(models.Model):
+class AdresBudynek(models.Model):
     id = models.AutoField(primary_key=True)
     kod_pocztowy = models.TextField()
     miasto = models.TextField()
     ulica = models.TextField()
 
     class Meta:
-        db_table = 'adres_budynek'
+        db_table = 'adresbudynek'
 
 
 class Budynek(models.Model):
     id = models.AutoField(primary_key=True)
-    adres = models.ForeignKey('Adres_budynek', models.DO_NOTHING, db_column='adres_budynek', related_name='+')
+    adres = models.ForeignKey('AdresBudynek', models.DO_NOTHING, db_column='adresbudynek', related_name='+')
     administrator = models.ForeignKey('Pracownik', models.DO_NOTHING, db_column='administrator', related_name='+')
 
     class Meta:
@@ -111,7 +111,6 @@ class Wlasciciel(models.Model):
     nazwisko = models.TextField()
     telefon = models.TextField()
     email = models.TextField()
-    mieszkanie = models.ForeignKey('Mieszkanie', models.DO_NOTHING, db_column='mieszkanie', related_name='+')
 
     class Meta:
         db_table = 'wlasciciel'

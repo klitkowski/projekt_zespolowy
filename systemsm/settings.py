@@ -137,3 +137,11 @@ MESSAGE_TAGS = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+# Fixtures
+# https://docs.djangoproject.com/en/1.11/howto/initial-data/#initial-data-via-fixtures
+
+FIXTURE_DIRS = (
+    '/app/fixtures/',
+)
