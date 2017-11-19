@@ -1,0 +1,6 @@
+wygląd pdf
+wyświetlanie pojedyńczego właściciela oraz wystawcy, edycja ich danych, usuwanie
+usuwanie faktur, właścicieli, wystawców
+dodawanie adresów oraz adresów budynków, liczników, stanów liczników, stanowisk, nadgodzin, mieszkań
+
+dodawanie pracowników??? połączenie z authem django

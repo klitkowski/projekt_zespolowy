@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
 from django.utils.encoding import smart_text
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 
 # User in group: request.user.groups.filter(name='group_name').exists()
 
@@ -25,7 +27,7 @@ def event(request, event_id):
 
 
 def add_event(request):
-    if (request.user.groups.filter(name='Administrator Budynku').exists()):
+    if (request.user.groups.filter(name='Pracownik').exists()):
         building_list = Budynek.objects.all()
         context = {'building_list': building_list}
         if request.method == 'POST':
@@ -103,7 +105,148 @@ def delete_ticket(request, ticket_id):
 
 
 def delete_event(request, event_id):
-    post = Event.objects.get(id=event_id)
+    post = Wydarzenie.objects.get(id=event_id)
     post.delete()
     messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
     return redirect('index')
+
+
+def add_invoice(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        issuers_list = Wystawca.objects.all()
+        owners_list = Wlasciciel.objects.all()
+        context = {'issuers_list': issuers_list, 'owners_list': owners_list}
+        if request.method == 'POST':
+            form = FakturaForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.wartosc_netto = float(request.POST.get('wartosc_netto'))
+                post.wystawca.id = int(request.POST.get('wystawca'))
+                post.wlasciciel.id = int(request.POST.get('wlasciciel'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano fakture!')
+                return redirect('invoice', invoice_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_invoice.html', context)
+
+
+def invoice(request, invoice_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            this_invoice = Faktura.objects.get(id=invoice_id)
+            context = {'this_invoice': this_invoice}
+        except Faktura.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Faktura nie istnieje!')
+            return redirect('index')
+        return render(request, 'invoice.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def pdf(request, invoice_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            this_invoice = Faktura.objects.get(id=invoice_id)
+        except Faktura.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Faktura nie istnieje!')
+            return redirect('index')
+        # Create the HttpResponse object with the appropriate PDF headers.
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="faktura.pdf"'
+
+        # Create the PDF object, using the response object as its "file."
+        p = canvas.Canvas(response)
+
+        # Draw things on the PDF. Here's where the PDF generation happens.
+        # See the ReportLab documentation for the full list of functionality.
+        p.drawString(100, 100, this_invoice.wlasciciel.imie)
+
+        # Close the PDF object cleanly, and we're done.
+        p.showPage()
+        p.save()
+        return response
+
+
+def invoices(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        invoice_list = Faktura.objects.all().order_by('-id')
+        context = {'invoice_list': invoice_list}
+        return render(request, 'invoices.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def add_issuer(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = WystawcaForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.nazwa = request.POST.get('nazwa')
+                post.kod_pocztowy = request.POST.get('kod_pocztowy')
+                post.miasto = request.POST.get('miasto')
+                post.ulica = request.POST.get('ulica')
+                post.telefon = request.POST.get('telefon')
+                post.email = request.POST.get('email')
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano wystawce!')
+                return redirect('issuers', issuer_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_issuer.html')
+
+
+def add_owner(request):
+    flat_list = Mieszkanie.objects.all()
+    context = {'flat_list': flat_list}
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = WlascicielForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.imie = request.POST.get('imie')
+                post.nazwisko = request.POST.get('nazwisko')
+                post.telefon = request.POST.get('telefon')
+                post.email = request.POST.get('email')
+                post.mieszkanie.id = int(request.POST.get('mieszkanie'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano właściciela!')
+                return redirect('owners', owner_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_owner.html', context)
+
+
+def issuers(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        issuer_list = Wystawca.objects.all().order_by('-id')
+        context = {'issuer_list': issuer_list}
+        return render(request, 'issuers.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def owners(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        owner_list = Wlasciciel.objects.all().order_by('-id')
+        context = {'owner_list': owner_list}
+        return render(request, 'owners.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')

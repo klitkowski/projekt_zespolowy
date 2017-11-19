@@ -77,10 +77,10 @@ class NadgodzinyForm(forms.ModelForm):
 class MieszkanieForm(forms.ModelForm):
     class Meta:
         model = Mieszkanie
-        fields = ('budynek', 'metraz', 'liczba_pokoi', 'piwnica', 'wlasciciel', 'nr_mieszkania')
+        fields = ('budynek', 'metraz', 'liczba_pokoi', 'piwnica', 'nr_mieszkania')
 
 
 class WlascicielForm(forms.ModelForm):
     class Meta:
         model = Wlasciciel
-        fields = ('imie', 'nazwisko', 'telefon', 'email')
+        fields = ('imie', 'nazwisko', 'telefon', 'email', 'mieszkanie')

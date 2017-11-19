@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST" class="post-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <select name="wystawca" id="id wystawca" class="custom-select" required>
+                <option selected disabled>Wybierz wystawce</option>
+                {% if issuers_list %}
+                {% for issuer in issuers_list %}
+                <option value="{{ issuer.id }}">{{ issuer.nazwa }} | {{ issuer.miasto }} ul. {{ issuer.ulica }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+    </div>
+    <div class="form-group">
+        <select name="wlasciciel" id="id wlasciciel" class="custom-select" required>
+                <option selected disabled>Wybierz mieszkańca</option>
+                {% if owners_list %}
+                {% for owner in owners_list %}
+                <option value="{{ owner.id }}">{{ owner.imie }} {{ owner.nazwisko }} | {{ owner.mieszkanie.budynek.adres.miasto }} ul. {{ owner.mieszkanie.budynek.adres.ulica }}/{{ owner.mieszkanie.nr_mieszkania }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+    </div>    
+    <div class="form-group">
+        <input type="text" class="form-control" type="number" name="wartosc_netto" step="any" required id="id_wartosc_netto" placeholder="Wartosc netto" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+</form>
+
+{% endblock content %}

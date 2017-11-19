@@ -47,7 +47,6 @@ class Mieszkanie(models.Model):
     metraz = models.FloatField()
     liczba_pokoi = models.IntegerField()
     piwnica = models.BooleanField()
-    wlasciciel = models.ForeignKey('Wlasciciel', models.DO_NOTHING, db_column='wlasciciel', blank=True, null=True, related_name='+')
     nr_mieszkania = models.IntegerField()
 
     class Meta:
@@ -111,6 +110,7 @@ class Wlasciciel(models.Model):
     nazwisko = models.TextField()
     telefon = models.TextField()
     email = models.TextField()
+    mieszkanie = models.ForeignKey('Mieszkanie', models.DO_NOTHING, db_column='mieszkanie', blank=True, null=True, related_name='+')
 
     class Meta:
         db_table = 'wlasciciel'

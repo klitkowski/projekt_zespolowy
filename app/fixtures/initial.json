@@ -42,7 +42,6 @@
             "metraz": 35.2,
             "liczba_pokoi": 3,
             "piwnica": true,
-            "wlasciciel": 1,
             "nr_mieszkania": 35
         }
     },
@@ -99,7 +98,8 @@
             "imie": "Janusz",
             "nazwisko": "W\u0105s",
             "telefon": "876678768",
-            "email": "was@gmail.com"
+            "email": "was@gmail.com",
+            "mieszkanie": 1
         }
     },
     {
