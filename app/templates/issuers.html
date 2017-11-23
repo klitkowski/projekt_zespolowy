@@ -2,8 +2,8 @@
 
 {% block content %}
 
-{% if issuer_list %}
-{% for issuer in issuer_list %}
+{% if issuers_list %}
+{% for issuer in issuers_list %}
 <li><a href="/issuer/{{ issuer.id }}/">{{ issuer.nazwa }}</a>, {{ issuer.miasto }} ul. {{ issuer.ulica }}</li>
 {% endfor %}
 {% else %}

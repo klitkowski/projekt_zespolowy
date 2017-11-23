@@ -2,17 +2,19 @@
 
 {% block content %}
 
-<li>{{ this_event.nazwa }}</li>
-<li>{{ this_event.opis }}</li>
-<li>{{ this_event.data }}</li>
-{% if this_event.budynek.adres %}
-<li>{{ this_event.budynek.adres.kod_pocztowy }} {{ this_event.budynek.adres.miasto}} ul. {{ this_event.budynek.adres.ulica }}</li>
+<li>{{ entry.nazwa }}</li>
+<li>{{ entry.opis }}</li>
+<li>{{ entry.data }}</li>
+{% if entry.budynek.adres %}
+<li>{{ entry.budynek.adres.kod_pocztowy }} {{ entry.budynek.adres.miasto}} ul. {{ entry.budynek.adres.ulica }}</li>
 {% endif %}
-<form action="{% url 'delete_event' this_event.id %}" method="POST">
+{% if user.is_authenticated %}
+{% load app_filters %}
+<form action="{% url 'delete' entry.id %}" method="POST">
     {% csrf_token %}
-    {% if user.is_authenticated %}
+    <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>
     <button type="submit" class="btn btn-danger">Usuń</button>
-    {% endif %}
 </form>
+{% endif %}
 
 {% endblock content %}

@@ -18,8 +18,8 @@ def index(request):
 
 def event(request, event_id):
     try:
-        this_event = Wydarzenie.objects.get(id=event_id)
-        context = {'this_event': this_event}
+        entry = Wydarzenie.objects.get(id=event_id)
+        context = {'entry': entry}
     except Wydarzenie.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Wydarzenie nie istnieje!')
         return redirect('index')
@@ -57,8 +57,8 @@ def ticket(request, ticket_id):
         return redirect('ticket', ticket_id=ticket_id)
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
-            this_ticket = Ticket.objects.get(id=ticket_id)
-            context = {'this_ticket': this_ticket}
+            entry = Ticket.objects.get(id=ticket_id)
+            context = {'entry': entry}
         except Ticket.DoesNotExist:
             messages.add_message(request, messages.ERROR, 'Ticket nie istnieje!')
             return redirect('index')
@@ -97,15 +97,8 @@ def add_ticket(request):
     return render(request, 'add_ticket.html')
 
 
-def delete_ticket(request, ticket_id):
-    post = Ticket.objects.get(id=ticket_id)
-    post.delete()
-    messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
-    return redirect('index')
-
-
-def delete_event(request, event_id):
-    post = Wydarzenie.objects.get(id=event_id)
+def delete(request, del_id):
+    post = eval(str(request.POST.get('name'))).objects.get(id=del_id)
     post.delete()
     messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
     return redirect('index')
@@ -138,8 +131,8 @@ def add_invoice(request):
 def invoice(request, invoice_id):
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
-            this_invoice = Faktura.objects.get(id=invoice_id)
-            context = {'this_invoice': this_invoice}
+            entry = Faktura.objects.get(id=invoice_id)
+            context = {'entry': entry}
         except Faktura.DoesNotExist:
             messages.add_message(request, messages.ERROR, 'Faktura nie istnieje!')
             return redirect('index')
@@ -234,8 +227,8 @@ def add_owner(request):
 
 def issuers(request):
     if (request.user.groups.filter(name='Pracownik').exists()):
-        issuer_list = Wystawca.objects.all().order_by('-id')
-        context = {'issuer_list': issuer_list}
+        issuers_list = Wystawca.objects.all().order_by('-id')
+        context = {'issuers_list': issuers_list}
         return render(request, 'issuers.html', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -244,8 +237,8 @@ def issuers(request):
 
 def owners(request):
     if (request.user.groups.filter(name='Pracownik').exists()):
-        owner_list = Wlasciciel.objects.all().order_by('-id')
-        context = {'owner_list': owner_list}
+        owners_list = Wlasciciel.objects.all().order_by('-id')
+        context = {'owners_list': owners_list}
         return render(request, 'owners.html', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')

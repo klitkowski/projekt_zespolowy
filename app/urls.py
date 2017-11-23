@@ -16,6 +16,6 @@ urlpatterns = [
     url(r'^add/invoice/$', views.add_invoice, name='add_invoice'),
     url(r'^add/issuer/$', views.add_issuer, name='add_issuer'),
     url(r'^add/owner/$', views.add_owner, name='add_owner'),
-    url(r'^delete/ticket/(?P<ticket_id>[0-9]+)/$', views.delete_ticket, name='delete_ticket'),
-    url(r'^delete/event/(?P<event_id>[0-9]+)/$', views.delete_event, name='delete_event')
+    url(r'^delete/ticket/(?P<del_id>[0-9]+)/$', views.delete, name='delete'),
+    url(r'^delete/event/(?P<del_id>[0-9]+)/$', views.delete, name='delete')
 ]

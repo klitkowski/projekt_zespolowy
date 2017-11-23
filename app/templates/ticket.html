@@ -2,16 +2,18 @@
 
 {% block content %}
 
-<li>{{ this_ticket.zglaszajacy }}</li>
-<li>{{ this_ticket.opis }}</li>
-{% if this_ticket.pracownik %}
-<li>Przyjęty przez: {{ this_ticket.pracownik }}</li>
-<form action="{% url 'delete_ticket' this_ticket.id %}" method="POST">
+<li>{{ entry.zglaszajacy }}</li>
+<li>{{ entry.opis }}</li>
+{% if entry.pracownik %}
+{% if user.is_authenticated %}
+{% load app_filters %}
+<li>Przyjęty przez: {{ entry.pracownik }}</li>
+<form action="{% url 'delete' entry.id %}" method="POST">
     {% csrf_token %}
-    {% if user.is_authenticated %}
+    <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>
     <button type="submit" class="btn btn-danger">Usuń</button>
-    {% endif %}
 </form>
+{% endif %}
 {% else %}
 <form method="POST" class="post-form">
     {% csrf_token %}
