@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+#from django.contrib.auth.models import User
 
 
 class Adres(models.Model):
@@ -24,8 +25,8 @@ class AdresBudynek(models.Model):
 
 class Budynek(models.Model):
     id = models.AutoField(primary_key=True)
-    adres = models.ForeignKey('AdresBudynek', models.DO_NOTHING, db_column='adresbudynek', related_name='+')
-    administrator = models.ForeignKey('Pracownik', models.DO_NOTHING, db_column='administrator', related_name='+')
+    adres = models.ForeignKey('AdresBudynek', models.CASCADE, db_column='adresbudynek', related_name='+')
+    administrator = models.ForeignKey('Pracownik', models.CASCADE, db_column='administrator', related_name='+')
 
     class Meta:
         db_table = 'budynek'
@@ -34,8 +35,8 @@ class Budynek(models.Model):
 class Faktura(models.Model):
     id = models.AutoField(primary_key=True)
     wartosc_netto = models.FloatField()
-    wystawca = models.ForeignKey('Wystawca', models.DO_NOTHING, db_column='wystawca', related_name='+')
-    wlasciciel = models.ForeignKey('Wlasciciel', models.DO_NOTHING, db_column='wlasciciel', null=True, blank=True, related_name='+')
+    wystawca = models.ForeignKey('Wystawca', models.CASCADE, db_column='wystawca', related_name='+')
+    wlasciciel = models.ForeignKey('Wlasciciel', models.CASCADE, db_column='wlasciciel', null=True, blank=True, related_name='+')
 
     class Meta:
         db_table = 'faktura'
@@ -43,7 +44,7 @@ class Faktura(models.Model):
 
 class Mieszkanie(models.Model):
     id = models.AutoField(primary_key=True)
-    budynek = models.ForeignKey('Budynek', models.DO_NOTHING, db_column='budynek', related_name='+')
+    budynek = models.ForeignKey('Budynek', models.CASCADE, db_column='budynek', related_name='+')
     metraz = models.FloatField()
     liczba_pokoi = models.IntegerField()
     piwnica = models.BooleanField()
@@ -55,7 +56,7 @@ class Mieszkanie(models.Model):
 
 class Nadgodziny(models.Model):
     id = models.AutoField(primary_key=True)
-    pracownik = models.ForeignKey('Pracownik', models.DO_NOTHING, db_column='pracownik', related_name='+')
+    pracownik = models.ForeignKey('Pracownik', models.CASCADE, db_column='pracownik', related_name='+')
     ilosc = models.FloatField()
 
     class Meta:
@@ -64,13 +65,14 @@ class Nadgodziny(models.Model):
 
 class Pracownik(models.Model):
     id = models.AutoField(primary_key=True)
-    stanowisko = models.ForeignKey('Stanowisko', models.DO_NOTHING, db_column='stanowisko', related_name='+')
+    #user = models.OneToOneField(User)
+    stanowisko = models.ForeignKey('Stanowisko', models.CASCADE, db_column='stanowisko', related_name='+')
     budynek = models.IntegerField(null=True)
     imie = models.TextField()
     nazwisko = models.TextField()
     telefon = models.TextField()
     email = models.TextField()
-    adres = models.ForeignKey('Adres', models.DO_NOTHING, db_column='adres', related_name='+')
+    adres = models.ForeignKey('Adres', models.CASCADE, db_column='adres', related_name='+')
 
     class Meta:
         db_table = 'pracownik'
@@ -87,8 +89,8 @@ class Licznik(models.Model):
 
 class StanLicznik(models.Model):
     id = models.AutoField(primary_key=True)
-    typ = models.ForeignKey('Licznik', models.DO_NOTHING, db_column='typ', related_name='+')
-    mieszkanie = models.ForeignKey('Mieszkanie', models.DO_NOTHING, db_column='mieszkanie', related_name='+')
+    typ = models.ForeignKey('Licznik', models.CASCADE, db_column='typ', related_name='+')
+    mieszkanie = models.ForeignKey('Mieszkanie', models.CASCADE, db_column='mieszkanie', related_name='+')
     stan = models.FloatField()
 
     class Meta:
@@ -110,7 +112,7 @@ class Wlasciciel(models.Model):
     nazwisko = models.TextField()
     telefon = models.TextField()
     email = models.TextField()
-    mieszkanie = models.ForeignKey('Mieszkanie', models.DO_NOTHING, db_column='mieszkanie', blank=True, null=True, related_name='+')
+    mieszkanie = models.ForeignKey('Mieszkanie', models.CASCADE, db_column='mieszkanie', blank=True, null=True, related_name='+')
 
     class Meta:
         db_table = 'wlasciciel'
@@ -132,7 +134,7 @@ class Wydarzenie(models.Model):
     nazwa = models.TextField()
     opis = models.TextField()
     data = models.DateField()
-    budynek = models.ForeignKey('Budynek', models.DO_NOTHING, db_column='budynek', blank=True, null=True, related_name='+')
+    budynek = models.ForeignKey('Budynek', models.CASCADE, db_column='budynek', blank=True, null=True, related_name='+')
 
     class Meta:
         db_table = 'wydarzenie'

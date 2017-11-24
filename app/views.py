@@ -243,3 +243,31 @@ def owners(request):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
+
+
+def owner(request, owner_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Wlasciciel.objects.get(id=owner_id)
+            context = {'entry': entry}
+        except Wlasciciel.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Właściciel nie istnieje!')
+            return redirect('index')
+        return render(request, 'owner.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def issuer(request, issuer_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Wystawca.objects.get(id=issuer_id)
+            context = {'entry': entry}
+        except Wystawca.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Wystawca nie istnieje!')
+            return redirect('index')
+        return render(request, 'issuer.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
