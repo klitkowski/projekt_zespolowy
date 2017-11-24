@@ -23,52 +23,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse" id="collapsingNavbar">
-            <ul class="navbar-nav">
-                {% load app_filters %}
-                {% if request.user|in_group:"Pracownik" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/add/event">Nowe wydarzenie</a>
-                </li>
-                {% endif %}
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/add/ticket">Nowe zgłoszenie</a>
-                </li>
-                </ul>
             <ul class="navbar-nav ml-auto">
-                {% if request.user|in_group:"Pracownik" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/add/invoice">Dodaj fakture</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/add/issuer">Dodaj wystawce</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/add/owner">Dodaj właściciela</a>
-                </li>
-                {% endif %}
                 {% if user.is_authenticated %}
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/tickets">Zgłoszenia</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/invoices">Faktury</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/issuers">Wystawcy faktur</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/owners">Właściciele mieszkań</a>
-                        </li>
-                    </ul>
                 <li class="nav-item">
                     <strong>
                         </string>

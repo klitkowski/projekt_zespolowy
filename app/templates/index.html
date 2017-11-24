@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% load app_filters %}
+<a class="nav-link" href="/add/ticket">Nowe zgłoszenie</a>
+{% if request.user|in_group:"Pracownik" %}
+<a class="nav-link" href="/add/event">Nowe wydarzenie</a>
+<a class="nav-link" href="/add/invoice">Dodaj fakture</a>
+<a class="nav-link" href="/add/issuer">Dodaj wystawce</a>
+<a class="nav-link" href="/add/owner">Dodaj właściciela</a>
+<a class="nav-link" href="/tickets">Zgłoszenia</a>
+<a class="nav-link" href="/invoices">Faktury</a>
+<a class="nav-link" href="/issuers">Wystawcy faktur</a>
+<a class="nav-link" href="/owners">Właściciele mieszkań</a>
+<li>---</li>
+{% endif %}
 {% if event_list %}
 {% for event in event_list %}
 <li><a href="/event/{{ event.id }}/">{{ event.nazwa }}</a></li>
