@@ -1,0 +1,30 @@
+{% extends "base.html" %} 
+{% block content %}
+<form method="POST" class="post-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <select name="budynek" id="id budynek" class="custom-select" required>
+                <option selected disabled>Wybierz budynek</option>
+                {% if build_list %}
+                {% for build in build_list %}
+                <option value="{{ build.id }}">{{ build.adres }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+</div>
+    <div class="form-group">
+        <input class="form-control" id="id metraz" name="metraz" placeholder="Metraz" required></input>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="id liczba_pokoi" name="liczba_pokoi" placeholder="Liczba pokoi" required></input>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="id piwnica" name="piwnica" placeholder="Piwnica" required></input>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="id nr_mieszkania" name="nr_mieszkania" placeholder="Nr mieszkania" required></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj(todo)</button>
+</form>
+
+{% endblock content %}
