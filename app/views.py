@@ -271,3 +271,57 @@ def issuer(request, issuer_id):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
+
+
+def counters(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        counters_list = Licznik.objects.all().order_by('-id')
+        context = {'counters_list': counters_list}
+        return render(request, 'counters.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def add_counter(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = LicznikForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.typ = request.POST.get('typ')
+                post.cena_netto = float(request.POST.get('cena_netto'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano licznik!')
+                return redirect('counters', counter_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_counter.html')
+
+
+def counter_state(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        counters_list = Licznik.objects.all()
+        flat_list = Mieszkanie.objects.all()
+        context = {'counters_list': counters_list, 'flat_list': flat_list}
+        if request.method == 'POST':
+            form = StanLicznikForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.typ.id = int(request.POST.get('typ'))
+                post.mieszkanie.id = int(request.POST.get('mieszkanie'))
+                post.stan = float(request.POST.get('stan'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stan licznika!')
+                return redirect('counter_state', counter_state_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_counter_state.html', context)

@@ -19,4 +19,7 @@ urlpatterns = [
     url(r'^add/issuer/$', views.add_issuer, name='add_issuer'),
     url(r'^add/owner/$', views.add_owner, name='add_owner'),
     url(r'^delete/(?P<del_id>[0-9]+)/$', views.delete, name='delete'),
+    url(r'^add/counter_state/$', views.counter_state, name='add_counter_state'),
+    url(r'^counters/$', views.counters, name='counters'),
+    url(r'^add/counter/$', views.add_counter, name='add_counter'),
 ]
