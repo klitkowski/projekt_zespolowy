@@ -9,7 +9,6 @@
 {% load app_filters %}
 <li>{{ entry.wartosc_netto }} zł netto, {{ entry.wartosc_netto|brutto }} zł brutto</li>
 {% if user.is_authenticated %}
-{% load app_filters %}
 <form action="{% url 'delete' entry.id %}" method="POST">
     {% csrf_token %}
     <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>

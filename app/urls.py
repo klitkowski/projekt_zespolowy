@@ -22,4 +22,7 @@ urlpatterns = [
     url(r'^add/counter_state/$', views.counter_state, name='add_counter_state'),
     url(r'^counters/$', views.counters, name='counters'),
     url(r'^add/counter/$', views.add_counter, name='add_counter'),
+    url(r'^counter/(?P<counter_id>[0-9]+)/$', views.counter, name='counter'),
+    url(r'^counter/states/$', views.counter_states, name='counter_states'),
+    url(r'^counter/state/(?P<counter_state_id>[0-9]+)/$', views.counter_state, name='counter_state'),
 ]

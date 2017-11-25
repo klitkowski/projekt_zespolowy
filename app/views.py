@@ -293,7 +293,7 @@ def add_counter(request):
                 post.cena_netto = float(request.POST.get('cena_netto'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano licznik!')
-                return redirect('counters', counter_id=post.id)
+                return redirect('counter', counter_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -325,3 +325,41 @@ def counter_state(request):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_counter_state.html', context)
+
+
+def counter(request, counter_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Licznik.objects.get(id=counter_id)
+            context = {'entry': entry}
+        except Licznik.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Licznik nie istnieje!')
+            return redirect('index')
+        return render(request, 'counter.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def counter_state(request, counter_state_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = StanLicznik.objects.get(id=counter_state_id)
+            context = {'entry': entry}
+        except StanLicznik.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Stan licznika nie istnieje!')
+            return redirect('index')
+        return render(request, 'counter_state.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def counter_states(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        counter_state_list = StanLicznik.objects.all().order_by('-id')
+        context = {'counter_state_list': counter_state_list}
+        return render(request, 'counter_states.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')  
