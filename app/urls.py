@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^counter/(?P<counter_id>[0-9]+)/$', views.counter, name='counter'),
     url(r'^counter/states/$', views.counter_states, name='counter_states'),
     url(r'^counter/state/(?P<counter_state_id>[0-9]+)/$', views.counter_state, name='counter_state'),
+    url(r'^add/worker/$', views.add_worker, name='add_worker'),
+    url(r'^add/position/$', views.add_position, name='add_position'),
 ]

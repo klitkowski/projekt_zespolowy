@@ -362,4 +362,60 @@ def counter_states(request):
         return render(request, 'counter_states.html', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
-        return redirect('index')  
+        return redirect('index')
+
+
+def add_worker(request):
+    position_list = Stanowisko.objects.all()
+    address_list = Adres.objects.all()
+    groups = Group.objects.all()
+    context = {'position_list': position_list, 'address_list': address_list, 'groups': groups}
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = PracownikForm(request.POST)
+            if form.is_valid():
+                username = request.POST.get('imie')[:1] + request.POST.get('nazwisko')
+                user, created = User.objects.get_or_create(username=username.lower(), email=request.POST.get('email'))
+                user.set_password(username.lower() + '!1')
+                user.groups.add(int(request.POST.get('stanowisko')))
+                user.save()
+                post = form.save(commit=False)
+                post.imie = request.POST.get('imie')
+                post.nazwisko = request.POST.get('nazwisko')
+                post.telefon = request.POST.get('telefon')
+                post.email = request.POST.get('email')
+                post.stanowisko.id = int(request.POST.get('stanowisko'))
+                post.adres.id = int(request.POST.get('adres'))
+                post.user = user
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano pracownika!')
+                return redirect('index')
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_worker.html', context)
+
+
+def add_position(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = StanowiskoForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.nazwa = request.POST.get('nazwa')
+                post.pensja = request.POST.get('pensja')
+                post.save()
+                group, created = Group.objects.get_or_create(name=request.POST.get('nazwa'))
+                group.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stanowisko!')
+                return redirect('positions', position_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_position.html')

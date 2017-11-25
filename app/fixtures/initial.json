@@ -57,6 +57,7 @@
         "model": "app.pracownik",
         "pk": 1,
         "fields": {
+            "user": 1,
             "stanowisko": 1,
             "budynek": 1,
             "imie": "Jan",
