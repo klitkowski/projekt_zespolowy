@@ -375,8 +375,13 @@ def add_worker(request):
             form = PracownikForm(request.POST)
             if form.is_valid():
                 username = request.POST.get('imie')[:1] + request.POST.get('nazwisko')
-                user, created = User.objects.get_or_create(username=username.lower(), email=request.POST.get('email'))
+                user, created = User.objects.get_or_create(username=username.lower())
+                while not created:
+                    i = 1
+                    user, created = User.objects.get_or_create(username=username.lower() + str(i))
+                    i += 1
                 user.set_password(username.lower() + '!1')
+                user.email = request.POST.get('email')
                 user.groups.add(int(request.POST.get('stanowisko')))
                 user.save()
                 post = form.save(commit=False)
@@ -404,12 +409,15 @@ def add_position(request):
         if request.method == 'POST':
             form = StanowiskoForm(request.POST)
             if form.is_valid():
+                group, created = Group.objects.get_or_create(name=request.POST.get('nazwa'))
+                if not created:
+                    messages.add_message(request, messages.ERROR, 'Podane stanowisko już istnieje!')
+                    return redirect('index')
+                group.save()
                 post = form.save(commit=False)
                 post.nazwa = request.POST.get('nazwa')
                 post.pensja = request.POST.get('pensja')
                 post.save()
-                group, created = Group.objects.get_or_create(name=request.POST.get('nazwa'))
-                group.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stanowisko!')
                 return redirect('positions', position_id=post.id)
             else:
