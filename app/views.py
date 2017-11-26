@@ -366,6 +366,26 @@ def counter_states(request):
 
 
 def add_worker(request):
+    table = {
+        ord('ą'): 'a',
+        ord('ć'): 'c',
+        ord('ę'): 'e',
+        ord('ł'): 'l',
+        ord('ń'): 'n',
+        ord('ó'): 'o',
+        ord('ś'): 's',
+        ord('ź'): 'z',
+        ord('ż'): 'z',
+        ord('Ą'): 'A',
+        ord('Ć'): 'C',
+        ord('Ę'): 'E',
+        ord('Ł'): 'L',
+        ord('Ń'): 'N',
+        ord('Ó'): 'O',
+        ord('Ś'): 'S',
+        ord('Ź'): 'Z',
+        ord('Ż'): 'Z',
+    }
     position_list = Stanowisko.objects.all()
     address_list = Adres.objects.all()
     groups = Group.objects.all()
@@ -375,6 +395,7 @@ def add_worker(request):
             form = PracownikForm(request.POST)
             if form.is_valid():
                 username = request.POST.get('imie')[:1] + request.POST.get('nazwisko')
+                username.translate(table)
                 user, created = User.objects.get_or_create(username=username.lower())
                 while not created:
                     i = 1

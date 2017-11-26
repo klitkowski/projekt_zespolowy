@@ -19,6 +19,7 @@
 - Dodanie pracownika od razu tworzy jego konto, jeżeli użytkownik istnieje dodaj kolejny numer do loginu
 - Dodanie stanowiska od razu tworzy grupę, przekierowanie jeśli grupa istnieje
 - Dodawanie pracownika do grupy przy jego tworzeniu,
+- Usuwanie polskich znaków diakrytycznych przy tworzeniu usera
 
 ## Do zrobienia:
 - Dodawanie, edycja, usuwanie (Adres (budynku oraz pracownika), Nadgodziny),
