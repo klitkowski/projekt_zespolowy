@@ -7,8 +7,6 @@ from django.utils.encoding import smart_text
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 
-# User in group: request.user.groups.filter(name='group_name').exists()
-
 
 def index(request):
     event_list = Wydarzenie.objects.all().order_by('-id')
@@ -303,7 +301,7 @@ def add_counter(request):
     return render(request, 'add_counter.html')
 
 
-def counter_state(request):
+def add_counter_state(request):
     if (request.user.groups.filter(name='Pracownik').exists()):
         counters_list = Licznik.objects.all()
         flat_list = Mieszkanie.objects.all()
@@ -448,3 +446,49 @@ def add_position(request):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_position.html')
+
+
+def add_overtime(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        worker_list = Pracownik.objects.all()
+        context = {'worker_list': worker_list}
+        if request.method == 'POST':
+            form = NadgodzinyForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.ilosc = float(request.POST.get('ilosc'))
+                post.pracownik.id = int(request.POST.get('pracownik'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano nadgodziny pracownikowi!')
+                return redirect('overtime', overtime=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_overtime.html', context)
+
+
+def overtimes(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        overtime_list = Nadgodziny.objects.all().order_by('-id')
+        context = {'overtime_list': overtime_list}
+        return render(request, 'overtimes.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def overtime(request, overtime_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Nadgodziny.objects.get(id=overtime_id)
+            context = {'entry': entry}
+        except Nadgodziny.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Podane nadgodziny nie istnieją!')
+            return redirect('index')
+        return render(request, 'overtime.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
