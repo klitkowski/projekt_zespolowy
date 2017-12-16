@@ -1,5 +1,8 @@
 {% extends "base.html" %} 
 {% block content %}
+{% if this_item %}
+<p>Edycja</P>
+{% endif %}
 <form method="POST" class="post-form">
     {% csrf_token %}
     {% if user.is_authenticated %}
@@ -10,7 +13,7 @@
     </div>
     {% endif %}
     <div class="form-group">
-        <textarea cols="20" class="form-control" id="id opis" name="opis" placeholder="Opis wydarzenia" required></textarea>
+        <textarea cols="20" class="form-control" id="id opis" name="opis" placeholder="Opis wydarzenia" required>{% if this_item %}{{ this_item.opis }}{% endif %}</textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

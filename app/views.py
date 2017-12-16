@@ -492,3 +492,31 @@ def overtime(request, overtime_id):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
+
+
+# add_address, add_building_address + edit
+
+
+def edit_ticket(request, ticket_id):
+    try:
+        this_item = Ticket.objects.get(id=ticket_id)
+        context = {'this_item': this_item}
+    except Ticket.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Takie zgłoszenie nie istnieje!')
+        return redirect('index')
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=this_item)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.opis = request.POST.get('opis')
+            if request.user.is_authenticated:
+                post.zglaszajacy = str(request.user)
+            else:
+                post.zglaszajacy = request.POST.get('zglaszajacy')
+            post.save()
+            messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano zgłoszenie!')
+            return redirect('index')
+        else:
+            messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+            return redirect('index')
+    return render(request, 'add_ticket.html', context)
