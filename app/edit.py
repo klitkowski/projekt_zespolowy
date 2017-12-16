@@ -3,6 +3,7 @@
 def edit_event(request, event_id):
     try:
         this_item = Wydarzenie.objects.get(id=event_id)
+        context = {'this_item': this_item}
     except Wydarzenie.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Takie wydarzenie nie istnieje!')
         return redirect('index')
@@ -32,6 +33,7 @@ def edit_event(request, event_id):
 def edit_ticket(request, ticket_id):
     try:
         this_item = Ticket.objects.get(id=ticket_id)
+        context = {'this_item': this_item}
     except Ticket.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Takie zgłoszenie nie istnieje!')
         return redirect('index')
@@ -50,12 +52,13 @@ def edit_ticket(request, ticket_id):
         else:
             messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
             return redirect('index')
-    return render(request, 'add_ticket.html', this_item)
+    return render(request, 'add_ticket.html', context)
 
 
 def edit_invoice(request, invoice_id):
     try:
         this_item = Faktura.objects.get(id=invoice_id)
+        context = {'this_item': this_item}
     except Faktura.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taka faktura nie istnieje!')
         return redirect('index')
@@ -85,6 +88,7 @@ def edit_invoice(request, invoice_id):
 def edit_issuer(request, issuer_id):
     try:
         this_item = Wystawca.objects.get(id=issuer_id)
+        context = {'this_item': this_item}
     except Wystawca.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taki wystawca nie istnieje!')
         return redirect('index')
@@ -108,12 +112,13 @@ def edit_issuer(request, issuer_id):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
-    return render(request, 'add_issuer.html')
+    return render(request, 'add_issuer.html', context)
 
 
 def edit_owner(request, owner_id):
     try:
         this_item = Wlasciciel.objects.get(id=owner_id)
+        context = {'this_item': this_item}
     except Wlasciciel.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taki właściciel nie istnieje!')
         return redirect('index')
@@ -144,6 +149,7 @@ def edit_owner(request, owner_id):
 def edit_counter(request, counter_id):
     try:
         this_item = Licznik.objects.get(id=counter_id)
+        context = {'this_item': this_item}
     except Licznik.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taki licznik nie istnieje!')
         return redirect('index')
@@ -163,12 +169,13 @@ def edit_counter(request, counter_id):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
-    return render(request, 'add_counter.html')
+    return render(request, 'add_counter.html', context)
 
 
 def edit_counter_state(request, counter_state_id):
     try:
         this_item = StanLicznik.objects.get(id=counter_state_id)
+        context = {'this_item': this_item}
     except StanLicznik.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taki stan licznika nie istnieje!')
         return redirect('index')
@@ -198,6 +205,7 @@ def edit_counter_state(request, counter_state_id):
 def edit_worker(request, worker_id):
     try:
         this_item = Pracownik.objects.get(id=worker_id)
+        context = {'this_item': this_item}
     except Pracownik.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Takie pracownik nie istnieje!')
         return redirect('index')
@@ -263,6 +271,7 @@ def edit_worker(request, worker_id):
 def edit_position(request, position_id):
     try:
         this_item = Stanowisko.objects.get(id=position_id)
+        context = {'this_item': this_item}
     except Stanowisko.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Takie stanowisko nie istnieje!')
         return redirect('index')
@@ -287,12 +296,13 @@ def edit_position(request, position_id):
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
-    return render(request, 'add_position.html')
+    return render(request, 'add_position.html', context)
 
 
 def edit_overtime(request, overtime_id):
     try:
         this_item = Nadgodziny.objects.get(id=overtime_id)
+        context = {'this_item': this_item}
     except Nadgodziny.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Takie nadgodziny nie istnieją!')
         return redirect('index')
@@ -315,5 +325,3 @@ def edit_overtime(request, overtime_id):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_overtime.html', context)
-
-

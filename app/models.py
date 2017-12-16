@@ -65,7 +65,7 @@ class Nadgodziny(models.Model):
 
 class Pracownik(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, default=None, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.SET('usunieto'), default=None, null=True, blank=True)
     stanowisko = models.ForeignKey('Stanowisko', models.SET('usunieto'), db_column='stanowisko', related_name='+')
     budynek = models.IntegerField(null=True, blank=True)
     imie = models.TextField()
@@ -101,7 +101,7 @@ class Stanowisko(models.Model):
     id = models.AutoField(primary_key=True)
     nazwa = models.TextField()
     pensja = models.IntegerField()
-    group = models.OneToOneField(Group, default=None, null=True, blank=True)
+    group = models.OneToOneField(Group, on_delete=models.SET('usunieto'), default=None, null=True, blank=True)
 
     class Meta:
         db_table = 'stanowisko'
