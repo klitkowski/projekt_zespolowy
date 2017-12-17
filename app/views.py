@@ -520,3 +520,65 @@ def edit_ticket(request, ticket_id):
             messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
             return redirect('index')
     return render(request, 'add_ticket.html', context)
+
+
+def edit_event(request, event_id):
+    try:
+        this_item = Wydarzenie.objects.get(id=event_id)
+        context = {'this_item': this_item}
+    except Wydarzenie.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Takie wydarzenie nie istnieje!')
+        return redirect('index')
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        building_list = Budynek.objects.all()
+        context['building_list'] = building_list
+        if request.method == 'POST':
+            form = EventForm(request.POST, instance=this_item)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.opis = request.POST.get('opis')
+                post.nazwa = request.POST.get('nazwa')
+                post.data = request.POST.get('data')
+                post.budynek.id = request.POST.get('budynek')
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano wydarzenie!')
+                return redirect('event', event_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_event.html', context)
+
+
+def edit_invoice(request, invoice_id):
+    try:
+        this_item = Faktura.objects.get(id=invoice_id)
+        context = {'this_item': this_item}
+    except Faktura.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Taka faktura nie istnieje!')
+        return redirect('index')
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        issuers_list = Wystawca.objects.all()
+        owners_list = Wlasciciel.objects.all()
+        context['issuers_list'] = issuers_list
+        context['owner_list'] = owners_list
+        if request.method == 'POST':
+            form = FakturaForm(request.POST, instance=this_item)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.wartosc_netto = float(request.POST.get('wartosc_netto'))
+                post.wystawca.id = int(request.POST.get('wystawca'))
+                post.wlasciciel.id = int(request.POST.get('wlasciciel'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano fakture!')
+                return redirect('invoice', invoice_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_invoice.html', context)
+
