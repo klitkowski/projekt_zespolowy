@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'systemsm',
         'USER': 'systemuser',
         'PASSWORD': 'randompassword',
-        'HOST': '13.94.252.29',
+        'HOST': '91.205.75.186',
         'PORT': '',
     }
 }
