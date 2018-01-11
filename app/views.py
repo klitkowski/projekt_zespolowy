@@ -496,6 +496,67 @@ def overtime(request, overtime_id):
 
 # add_address, add_building_address + edit
 
+def add_building(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        address_list = AdresBudynek.objects.all()
+        worker_list = Pracownik.objects.all()
+        context = {'address_list': address_list, 'worker_list': worker_list}
+        if request.method == 'POST':
+            form = BudynekForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.adresbudynek.id = int(request.POST.get('adresbudynek'))
+                post.pracownik.id = int(request.POST.get('pracownik'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano budynek!')
+                return redirect('building', building=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_building.html', context)
+
+def add_building_address(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = AdresBudynekForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.kod_pocztowy = request.POST.get('kod_pocztowy')
+                post.miasto = request.POST.get('miasto')
+                post.ulica = request.POST.get('ulica')
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano adres budynku!')
+                return redirect('building_address', building_address_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_building_address.html')
+
+def add_address(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = AdresForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.kod_pocztowy = request.POST.get('kod_pocztowy')
+                post.miasto = request.POST.get('miasto')
+                post.ulica = request.POST.get('ulica')
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano adres!')
+                return redirect('address', address_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_address.html')
 
 def edit_ticket(request, ticket_id):
     try:

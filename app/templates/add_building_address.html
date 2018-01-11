@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block content %}
+<form method="POST" class="post-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <input class="form-control" id="id kod_pocztowy" name="kod_pocztowy" placeholder="Kod pocztowy" required></input>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="id miasto" name="miasto" placeholder="Miasto" required></input>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="id ulica" name="ulica" placeholder="Ulica" required></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+</form>
+
+{% endblock content %}
