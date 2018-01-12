@@ -1,11 +1,17 @@
+# -*- coding: utf-8 -*-
 from app.models import *
 from app.forms import *
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
 from django.utils.encoding import smart_text
-from reportlab.pdfgen import canvas
 from django.http import HttpResponse
+from reportlab.pdfgen.canvas import Canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.platypus import Table
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
 
 
 def index(request):
@@ -857,25 +863,61 @@ def edit_address(request, address_id):
     return render(request, 'add_address.html', context)
 
 
-def pdf(request, invoice_id):
+def pdf(request, owner_id):
+    all = 0
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
-            this_invoice = Faktura.objects.get(id=invoice_id)
-        except Faktura.DoesNotExist:
-            messages.add_message(request, messages.ERROR, 'Faktura nie istnieje!')
+            types = Licznik.objects.all()
+            owner = Wlasciciel.objects.get(id=owner_id)
+            states = StanLicznik.objects.all().filter(mieszkanie_id=owner.mieszkanie.id)
+        except Wlasciciel.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
             return redirect('index')
-        # Create the HttpResponse object with the appropriate PDF headers.
+        pdfmetrics.registerFont(TTFont('Arial', 'static/fonts/arial.ttf'))
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="faktura.pdf"'
+        canvas = Canvas(response, pagesize=A4)
+        canvas.translate(0, 29.7 * cm)
+        canvas.setFont('Arial', 10)
 
-        # Create the PDF object, using the response object as its "file."
-        p = canvas.Canvas(response)
+        canvas.saveState()
+        canvas.restoreState()
 
-        # Draw things on the PDF. Here's where the PDF generation happens.
-        # See the ReportLab documentation for the full list of functionality.
-        p.drawString(100, 100, this_invoice.wlasciciel.imie)
+        textobject = canvas.beginText(1.5 * cm, -2.5 * cm)
+        textobject.textLine(u'Spółdzielnia mieszkaniowa SYSTEMsM')
+        textobject.textLine(u'Grunwaldzka 123')
+        textobject.textLine(u'80-180 Gdańsk')
+        canvas.drawText(textobject)
 
-        # Close the PDF object cleanly, and we're done.
-        p.showPage()
-        p.save()
+        textobject = canvas.beginText(1.5 * cm, -6.75 * cm)
+        textobject.textLine(u'Numer faktury: %s' % owner.id)
+        textobject.textLine(u'Klient: %s %s' % (owner.imie, owner.nazwisko))
+        canvas.drawText(textobject)
+        
+        data = [[u'Typ', u'Ilość', u'Cena jednostkowa', u'Wartość netto'], ]
+        for item in types:
+            state = states.filter(typ_id=item.id)
+            all += item.cena_netto * state[0].stan
+            data.append([
+                item.typ,
+                state[0].stan,
+                item.cena_netto,
+                state[0].stan * item.cena_netto
+            ])
+        data.append([u'', u'', u'Wartość brutto', str(round(all + all * 0.23, 2)) + str(' zł')])
+        table = Table(data, colWidths=[2 * cm, 11 * cm, 3 * cm, 3 * cm])
+        table.setStyle([
+            ('FONT', (0, 0), (-1, -1), 'Arial'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('TEXTCOLOR', (0, 0), (-1, -1), (0.2, 0.2, 0.2)),
+            ('GRID', (0, 0), (-1, -2), 1, (0.7, 0.7, 0.7)),
+            ('GRID', (-2, -1), (-1, -1), 1, (0.7, 0.7, 0.7)),
+            ('ALIGN', (-2, 0), (-1, -1), 'RIGHT'),
+            ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
+        ])
+        tw, th, = table.wrapOn(canvas, 15 * cm, 19 * cm)
+        table.drawOn(canvas, 1 * cm, -8 * cm - th)
+
+        canvas.showPage()
+        canvas.save()
         return response
