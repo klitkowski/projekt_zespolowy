@@ -139,7 +139,7 @@
     window.addEventListener('scroll', fixNav);
   </script>
 
-    {% include "messages.html" %}
+
     <div class="container-fluid">
       <div class="row">
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
@@ -208,9 +208,11 @@
  {% endif %}
         </nav>
         <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-
+{% include "messages.html" %}
+<div class="container">
           {% block content %}
     {% endblock %}
+  </div>
 </body>
 
 </html>
