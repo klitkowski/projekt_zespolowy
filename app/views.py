@@ -894,7 +894,7 @@ def pdf(request, owner_id):
         textobject.textLine(u'Klient: %s %s' % (owner.imie, owner.nazwisko))
         canvas.drawText(textobject)
         
-        data = [[u'Typ', u'Ilość', u'Cena jednostkowa', u'Wartość netto'], ]
+        data = [[u'Typ', u'Ilość', u'Cena za 1', u'Wartość netto'], ]
         for item in types:
             state = states.filter(typ_id=item.id)
             all += item.cena_netto * state[0].stan

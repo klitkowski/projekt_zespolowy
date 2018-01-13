@@ -2,28 +2,6 @@
 
 {% block content %}
 {% load app_filters %}
-<a class="nav-link" href="/add/ticket">Nowe zgłoszenie</a>
-{% if request.user|in_group:"Pracownik" %}
-<a class="nav-link" href="/add/event">Nowe wydarzenie</a>
-<a class="nav-link" href="/add/invoice">Dodaj fakturę</a>
-<a class="nav-link" href="/add/issuer">Dodaj wystawce</a>
-<a class="nav-link" href="/add/owner">Dodaj właściciela</a>
-<a class="nav-link" href="/tickets">Zgłoszenia</a>
-<a class="nav-link" href="/invoices">Faktury</a>
-<a class="nav-link" href="/issuers">Wystawcy faktur</a>
-<a class="nav-link" href="/owners">Właściciele mieszkań</a>
-<a class="nav-link" href="/add/counter">Dodaj licznik</a>
-<a class="nav-link" href="/counters">Liczniki</a>
-<a class="nav-link" href="/add/counter_state">Zmień stan licznika</a>
-<a class="nav-link" href="/counter/states">Stany liczników</a>
-<a class="nav-link" href="/add/worker">Dodaj pracownika</a>
-<a class="nav-link" href="/add/position">Dodaj stanowisko</a>
-<a class="nav-link" href="/add/overtime">Dodaj nadgodziny</a>
-<a class="nav-link" href="/add/building_address">Dodaj adres budynku</a>
-<a class="nav-link" href="/add/address">Dodaj adres pracownika</a>
-
-<li>---</li>
-{% endif %}
 {% if event_list %}
 {% for event in event_list %}
 <li><a href="/event/{{ event.id }}/">{{ event.nazwa }}</a></li>

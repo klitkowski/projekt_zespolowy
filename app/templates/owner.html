@@ -12,6 +12,7 @@
     <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>
     <button type="submit" class="btn btn-danger">Usuń</button>
 </form>
+<a class="btn btn-primary" href="{% url 'pdf' entry.id %}" role="button">Wygeneruj fakturę</a>
 {% endif %}
 
 {% endblock content %}

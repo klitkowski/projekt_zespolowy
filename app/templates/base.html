@@ -4,46 +4,212 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>SYSTEMsM</title>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300" rel="stylesheet" type="text/css"> 
+    <meta name="theme-color" content="#ffffff">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300" rel="stylesheet" type="text/css">
     {% load staticfiles %}
     <link rel="shortcut icon" href="{% static " favicon.ico " %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-grid.min.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/custom.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/blog.css" %}">
     <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
     <script src="{% static "js/popper.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md bg-faded">
-        <a class="navbar-brand abs" href="/">SYSTEMsM</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="collapsingNavbar">
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <strong>
-                        </string>
-                        <span class="nav-link disabled">Witaj, {{ user.get_username }}.</span>
-                    </strong>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Wyloguj</a>
-                </li>
-                <li class="nav-item">
-                    {% else %}
-                    <a class="nav-link " href="/login">Zaloguj</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-    </nav>
-    {% include "messages.html" %} 
-    {% block content %} 
+  <nav class="navbar navbar-light navbar-expand-md bg-faded">
+    <a class="navbar-brand abs" href="/">SYSTEMsM</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <strong>
+                    </string>
+                    <span class="nav-link disabled">Witaj, {{ user.get_username }}.</span>
+                </strong>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Wyloguj</a>
+            </li>
+            <li class="nav-item">
+                {% else %}
+                <a class="nav-link " href="/login">Zaloguj</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    /*html {*/
+      /*background:red;*/
+      /*background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);*/
+      /*background-size:cover;*/
+      /*font-family:'helvetica neue';*/
+      /*text-align: center;*/
+      /*font-size: 2px;*/
+    /*}*/
+    /*body {*/
+      /*margin: 0;*/
+      /*font-size: 2rem;*/
+      /*display:flex;*/
+      /*flex:1;*/
+      /*min-height: 100vh;*/
+      /*align-items: center;*/
+    /*}*/
+    .clock {
+      width: 10rem;
+      height: 10rem;
+      border:1px solid white;
+      border-radius:25%;
+      margin:5px auto;
+      position: relative;
+      padding:2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+    .hand {
+      width:50%;
+      height:4px;
+      background:black;
+      position: absolute;
+      top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+</style>
+
+<script>
+  const secondHand = document.querySelector('.second-hand');
+  const minsHand = document.querySelector('.min-hand');
+  const hourHand = document.querySelector('.hour-hand');
+  function setDate() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const secondsDegrees = ((seconds / 60) * 360) + 90;
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + ((seconds/60)*6) + 90;
+    minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 12) * 360) + ((mins/60)*30) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+  }
+  setInterval(setDate, 1000);
+  setDate();
+</script>
+
+<script>
+    // Not a ton of code, but hard to
+    const nav = document.querySelector('#collapsingNavbar');
+    let topOfNav = nav.offsetTop;
+    function fixNav() {
+      if(window.scrollY >= topOfNav) {
+        document.body.style.paddingTop = nav.offsetHeight + 'px';
+        document.body.classList.add('fixed-nav');
+      } else {
+        document.body.classList.remove('fixed-nav');
+        document.body.style.paddingTop = 0;
+      }
+    }
+    window.addEventListener('scroll', fixNav);
+  </script>
+
+    {% include "messages.html" %}
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+          <ul class="nav nav-pills flex-column">
+            {% load app_filters %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="/add/ticket">Nowe zgłoszenie</a>
+            </li>
+            {% if request.user|in_group:"Pracownik" %}
+            <li class="nav-item">
+              <a class="nav-link" href="/add/event">Nowe wydarzenie</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add/invoice">Dodaj fakturę</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add/issuer">Dodaj wystawce</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add/owner">Dodaj właściciela</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/tickets">Zgłoszenia</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/invoices">Faktury</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/issuers">Wystawcy faktur</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/owners">Właściciele mieszkań</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/counter">Dodaj licznik</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/counters">Liczniki</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/counter_state">Zmień stan licznika</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/counter/states">Stany liczników</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/worker">Dodaj pracownika</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/position">Dodaj stanowisko</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/overtime">Dodaj nadgodziny</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/building_address">Dodaj adres budynku</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/address">Dodaj adres pracownika</a>
+           </li>
+
+          </ul>
+
+
+ {% endif %}
+        </nav>
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+
+          {% block content %}
     {% endblock %}
 </body>
 
