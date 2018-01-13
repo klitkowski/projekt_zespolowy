@@ -520,7 +520,7 @@ def add_counter_state(request):
 
 def edit_counter_state(request, counter_state_id):
     try:
-        this_item = Licznik.objects.get(id=owner_id)
+        this_item = Licznik.objects.get(id=counter_state_id)
         context = {'this_item': this_item}
     except Licznik.DoesNotExist:
         messages.add_message(request, messages.ERROR, 'Taki licznik nie istnieje!')
