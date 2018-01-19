@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% load app_filters %}
+
 {% if event_list %}
 {% for event in event_list %}
 <li><a href="/event/{{ event.id }}/">{{ event.nazwa }}</a></li>
