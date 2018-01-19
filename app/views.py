@@ -137,6 +137,7 @@ def add_ticket(request):
             return redirect('index')
     return render(request, 'add_ticket.html')
 
+
 def edit_ticket(request, ticket_id):
     try:
         this_item = Ticket.objects.get(id=ticket_id)
@@ -399,7 +400,6 @@ def edit_owner(request, owner_id):
     return render(request, 'add_owner.html', context)
 
 
-
 def counter(request, counter_id):
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
@@ -624,7 +624,7 @@ def add_position(request):
                 post.pensja = request.POST.get('pensja')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stanowisko!')
-                return redirect('positions', position_id=post.id)
+                return redirect('index')
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -683,7 +683,7 @@ def overtimes(request):
     if (request.user.groups.filter(name='Pracownik').exists()):
         overtime_list = Nadgodziny.objects.all().order_by('-id')
         context = {'overtime_list': overtime_list}
-        return render(request, 'overtimes.html', context)
+        return render(request, 'overtimes', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
@@ -701,7 +701,7 @@ def add_overtime(request):
                 post.pracownik.id = int(request.POST.get('pracownik'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano nadgodziny pracownikowi!')
-                return redirect('overtime', overtime=post.id)
+                return redirect('overtime', overtime_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -826,7 +826,7 @@ def add_address(request):
                 post.ulica = request.POST.get('ulica')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano adres!')
-                return redirect('address', address_id=post.id)
+                return redirect('index')
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -893,7 +893,7 @@ def pdf(request, owner_id):
         textobject.textLine(u'Numer faktury: %s' % owner.id)
         textobject.textLine(u'Klient: %s %s' % (owner.imie, owner.nazwisko))
         canvas.drawText(textobject)
-        
+
         data = [[u'Typ', u'Ilość', u'Cena za 1', u'Wartość netto'], ]
         for item in types:
             state = states.filter(typ_id=item.id)
