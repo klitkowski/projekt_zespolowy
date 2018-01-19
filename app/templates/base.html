@@ -153,54 +153,46 @@
             <li class="nav-item">
               <a class="nav-link" href="/add/event">Nowe wydarzenie</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/add/invoice">Dodaj fakturę</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/add/issuer">Dodaj wystawce</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/add/owner">Dodaj właściciela</a>
-            </li>
+
             <li class="nav-item">
             <a class="nav-link" href="/tickets">Zgłoszenia</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/invoices">Faktury</a>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"  id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Faktury</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <a class="dropdown-item" href="/invoices">Faktury</a>
+                  <a class="dropdown-item" href="/add/invoice">Dodaj fakturę</a>
+                  <a class="dropdown-item" href="/add/issuer">Dodaj wystawce</a>
+                  <a class="dropdown-item" href="/issuers">Wystawcy faktur</a>
+                </div>
+              </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Liczniki</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="/counter/states">Stany liczników</a>
+                <a class="dropdown-item" href="/add/counter_state">Zmień stan licznika</a>
+                <a class="dropdown-item" href="/counters">Liczniki</a>
+                <a class="dropdown-item" href="/add/counter">Dodaj licznik</a>
+              </div>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/issuers">Wystawcy faktur</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"  id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Budynki</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="/add/building_address">Dodaj adres budynku</a>
+                <a class="dropdown-item" href="/owners">Właściciele mieszkań</a>
+                <a class="dropdown-item" href="/add/owner">Dodaj właściciela</a>
+              </div>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/owners">Właściciele mieszkań</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/counter">Dodaj licznik</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/counters">Liczniki</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/counter_state">Zmień stan licznika</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/counter/states">Stany liczników</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/worker">Dodaj pracownika</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/position">Dodaj stanowisko</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/overtime">Dodaj nadgodziny</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/building_address">Dodaj adres budynku</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/add/address">Dodaj adres pracownika</a>
-           </li>
+           <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pracownicy</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <a class="dropdown-item" href="/add/position">Dodaj stanowisko</a>
+                  <a class="dropdown-item" href="/add/worker">Dodaj pracownika</a>
+                  <a class="dropdown-item" href="/add/overtime">Dodaj nadgodziny</a>
+                  <a class="dropdown-item" href="/add/address">Dodaj adres pracownika</a>
+                </div>
+              </li>
 
           </ul>
 
