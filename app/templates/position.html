@@ -2,9 +2,10 @@
 
 {% block content %}
 
-<li>{{ entry.kod_pocztowy }} {{ entry.miasto}}, ul. {{ entry.ulica }}</li>
-{% load app_filters %}
+<li>Nazwa: {{ entry.nazwa }}</li>
+<li>Pensja: {{ entry.pensja }}</li>
 {% if user.is_authenticated %}
+{% load app_filters %}
 <form action="{% url 'delete' entry.id %}" method="POST">
     {% csrf_token %}
     <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>

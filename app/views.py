@@ -279,7 +279,7 @@ def add_issuer(request):
                 post.email = request.POST.get('email')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano wystawce!')
-                return redirect('issuers', issuer_id=post.id)
+                return redirect('issuer', issuer_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -309,7 +309,7 @@ def edit_issuer(request, issuer_id):
                 post.email = request.POST.get('email')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano wystawce!')
-                return redirect('issuers', issuer_id=post.id)
+                return redirect('issuer', issuer_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -358,7 +358,7 @@ def add_owner(request):
                 post.mieszkanie.id = int(request.POST.get('mieszkanie'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano właściciela!')
-                return redirect('owners', owner_id=post.id)
+                return redirect('owner', owner_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -389,7 +389,87 @@ def edit_owner(request, owner_id):
                 post.mieszkanie.id = int(request.POST.get('mieszkanie'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano właściciela!')
-                return redirect('owners', owner_id=post.id)
+                return redirect('owner', owner_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_owner.html', context)
+
+
+def flat(request, flat_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Mieszkanie.objects.get(id=flat_id)
+            context = {'entry': entry}
+        except Mieszkanie.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Mieszkanie nie istnieje!')
+            return redirect('index')
+        return render(request, 'flat.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def flats(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        flats_list = Mieszkanie.objects.all().order_by('-id')
+        context = {'flats_list': flats_list}
+        return render(request, 'flats.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def add_flat(request):
+    building_list = Budynek.objects.all()
+    context = {'building_list': building_list}
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        if request.method == 'POST':
+            form = MieszkanieForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.budynek.id = request.POST.get('budynek')
+                post.metraz = float(request.POST.get('metraz'))
+                post.liczba_pokoi = int(request.POST.get('liczba_pokoi'))
+                post.piwnica = request.POST.get('piwnica')
+                post.numer_mieszkania = int(request.POST.get('numer_mieszkania'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano mieszkanie!')
+                return redirect('flat', flat_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_flat.html', context)
+
+
+def edit_flat(request, flat_id):
+    try:
+        this_item = Wlasciciel.objects.get(id=owner_id)
+        context = {'this_item': this_item}
+    except Wlasciciel.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Taki właściciel nie istnieje!')
+        return redirect('index')
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        flat_list = Mieszkanie.objects.all()
+        context = {'flat_list': flat_list}
+        if request.method == 'POST':
+            form = WlascicielForm(request.POST, instance=this_item)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.imie = request.POST.get('imie')
+                post.nazwisko = request.POST.get('nazwisko')
+                post.telefon = request.POST.get('telefon')
+                post.email = request.POST.get('email')
+                post.mieszkanie.id = int(request.POST.get('mieszkanie'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano właściciela!')
+                return redirect('owner', owner_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -609,6 +689,30 @@ def add_worker(request):
     return render(request, 'add_worker.html', context)
 
 
+def position(request, position_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Stanowisko.objects.get(id=position_id)
+            context = {'entry': entry}
+        except Stanowisko.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Stanowisko nie istnieje!')
+            return redirect('index')
+        return render(request, 'position.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def positions(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        position_list = Stanowisko.objects.all().order_by('-id')
+        context = {'position_list': position_list}
+        return render(request, 'positions.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
 def add_position(request):
     if (request.user.groups.filter(name='Pracownik').exists()):
         if request.method == 'POST':
@@ -624,7 +728,7 @@ def add_position(request):
                 post.pensja = request.POST.get('pensja')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stanowisko!')
-                return redirect('positions', position_id=post.id)
+                return redirect('position', position_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
@@ -701,7 +805,7 @@ def add_overtime(request):
                 post.pracownik.id = int(request.POST.get('pracownik'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano nadgodziny pracownikowi!')
-                return redirect('overtime', overtime=post.id)
+                return redirect('overtime', overtime_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
