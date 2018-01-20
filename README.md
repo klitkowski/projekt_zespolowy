@@ -17,3 +17,10 @@
 [Instalacja i konfiguracja PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-debian-8)
 
 [Instalacja i konfiguracja PostgreSQL #2](https://help.ubuntu.com/stable/serverguide/postgresql.html)
+
+
+# TODO
+- Naprawić usuwanie
+- Walidacja
+- Front
+- Komunikaty błedów
