@@ -23,7 +23,7 @@ def index(request):
 def delete(request, del_id):
     post = eval(str(request.POST.get('name'))).objects.get(id=del_id)
     post.delete()
-    messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
+    # messages.add_message(request, messages.SUCCESS, 'Pomyślnie usunięto!')
     return redirect('index')
 
 
@@ -136,6 +136,7 @@ def add_ticket(request):
             messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
             return redirect('index')
     return render(request, 'add_ticket.html')
+
 
 def edit_ticket(request, ticket_id):
     try:
@@ -477,7 +478,6 @@ def edit_flat(request, flat_id):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_owner.html', context)
-
 
 
 def counter(request, counter_id):
@@ -991,14 +991,19 @@ def pdf(request, owner_id):
         textobject.textLine(u'Spółdzielnia mieszkaniowa SYSTEMsM')
         textobject.textLine(u'Grunwaldzka 123')
         textobject.textLine(u'80-180 Gdańsk')
+        textobject.textLine(u' ')
+        textobject.textLine(u'Wpłaty na podany numer konta: PL61 1090 1014 0000 0712 1981 2874')        
         canvas.drawText(textobject)
 
-        textobject = canvas.beginText(1.5 * cm, -6.75 * cm)
-        textobject.textLine(u'Numer faktury: %s' % owner.id)
-        textobject.textLine(u'Klient: %s %s' % (owner.imie, owner.nazwisko))
+        textobject = canvas.beginText(1.5 * cm, -5.5 * cm)
+        textobject.textLine(u'Numer faktury: %s/01/2018' % owner.id)
+        textobject.textLine(u' ');
+        textobject.textLine(u'%s %s' % (owner.imie, owner.nazwisko))
+        textobject.textLine(u'%s %s, ul. %s/%s' % (owner.mieszkanie.budynek.adres.kod_pocztowy, owner.mieszkanie.budynek.adres.miasto, owner.mieszkanie.budynek.adres.ulica, owner.mieszkanie.nr_mieszkania))
+        textobject.textLine(u'%s, %s' % (owner.telefon, owner.email))
         canvas.drawText(textobject)
         
-        data = [[u'Typ', u'Ilość', u'Cena jednostkowa', u'Wartość netto'], ]
+        data = [[u'Typ', u'Ilość', u'Cena', u'Wartość netto'], ]
         for item in types:
             state = states.filter(typ_id=item.id)
             all += item.cena_netto * state[0].stan

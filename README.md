@@ -24,4 +24,3 @@
 - Walidacja
 - Front
 - Komunikaty błedów
-- Więcej danych w fakturze
