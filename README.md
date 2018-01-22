@@ -18,9 +18,9 @@
 
 [Instalacja i konfiguracja PostgreSQL #2](https://help.ubuntu.com/stable/serverguide/postgresql.html)
 
+## TODO
 
-# TODO
-- Naprawić usuwanie
-- Walidacja
+- Naprawić usuwanie???
 - Front
 - Komunikaty błedów
+- Przetestować!

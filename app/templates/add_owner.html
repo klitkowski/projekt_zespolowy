@@ -3,16 +3,16 @@
 <form method="POST" class="post-form">
     {% csrf_token %}
     <div class="form-group">
-        <input class="form-control" id="id imie" name="imie" placeholder="Imie" required></input>
+        <input class="form-control" id="id imie" name="imie" placeholder="Imie" required pattern="[A-Z][A-Za-z]+"></input>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id nazwisko" name="nazwisko" placeholder="Nazwisko" required></input>
+        <input class="form-control" id="id nazwisko" name="nazwisko" placeholder="Nazwisko" required pattern="[A-Z][A-Za-z]+"></input>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id telefon" name="telefon" placeholder="Telefon" required></input>
+        <input class="form-control" id="id telefon" name="telefon" placeholder="Telefon" required pattern="[0-9]{9}"></input>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id email" name="email" placeholder="Email" required></input>
+        <input class="form-control" id="id email" name="email" placeholder="Email" required pattern="[A-Za-z0-9]+[@][A-Za-z.]+"></input>
     </div>
     <div class="form-group">
         <select name="mieszkanie" id="id mieszkanie" class="custom-select" required>

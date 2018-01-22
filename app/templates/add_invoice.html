@@ -35,7 +35,7 @@
               </select>
     </div>    
     <div class="form-group">
-        <input type="text" class="form-control" type="number" name="wartosc_netto" step="any" required id="id_wartosc_netto" placeholder="Wartosc netto" required value="{% if this_item %}{{ this_item.wartosc_netto }}{% endif %}">
+        <input type="text" class="form-control" type="number" name="wartosc_netto" step="any" required id="id_wartosc_netto" placeholder="Wartosc netto" required pattern="[0-9]+([\.,][0-9]+)?" value="{% if this_item %}{{ this_item.wartosc_netto }}{% endif %}">
     </div>
     <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>
