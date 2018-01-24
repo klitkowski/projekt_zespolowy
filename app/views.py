@@ -451,33 +451,33 @@ def add_flat(request):
 
 def edit_flat(request, flat_id):
     try:
-        this_item = Wlasciciel.objects.get(id=owner_id)
+        this_item = Budynek.objects.get(id=owner_id)
         context = {'this_item': this_item}
-    except Wlasciciel.DoesNotExist:
-        messages.add_message(request, messages.ERROR, 'Taki właściciel nie istnieje!')
+    except Budynek.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Taki budynek nie istnieje!')
         return redirect('index')
     if (request.user.groups.filter(name='Pracownik').exists()):
-        flat_list = Mieszkanie.objects.all()
-        context = {'flat_list': flat_list}
+        building_list = Budynek.objects.all()
+        context = {'building_list': building_list}
         if request.method == 'POST':
-            form = WlascicielForm(request.POST, instance=this_item)
+            form = MieszkanieForm(request.POST, instance=this_item)
             if form.is_valid():
                 post = form.save(commit=False)
-                post.imie = request.POST.get('imie')
-                post.nazwisko = request.POST.get('nazwisko')
-                post.telefon = request.POST.get('telefon')
-                post.email = request.POST.get('email')
-                post.mieszkanie.id = int(request.POST.get('mieszkanie'))
+                post.budynek.id = request.POST.get('budynek')
+                post.metraz = float(request.POST.get('metraz'))
+                post.liczba_pokoi = int(request.POST.get('liczba_pokoi'))
+                post.piwnica = request.POST.get('piwnica')
+                post.numer_mieszkania = int(request.POST.get('numer_mieszkania'))
                 post.save()
-                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano właściciela!')
-                return redirect('owner', owner_id=post.id)
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano mieszkanie!')
+                return redirect('flat', flat_id=post.id)
             else:
                 messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
-    return render(request, 'add_owner.html', context)
+    return render(request, 'add_flat.html', context)
 
 
 def counter(request, counter_id):
@@ -627,6 +627,30 @@ def edit_counter_state(request, counter_state_id):
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
     return render(request, 'add_counter_state.html', context)
+
+
+def worker(request, worker_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Pracownik.objects.get(id=worker_id)
+            context = {'entry': entry}
+        except Pracownik.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Pracownik nie istnieje!')
+            return redirect('index')
+        return render(request, 'worker.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def workers(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        worker_list = Pracownik.objects.all().order_by('-id')
+        context = {'worker_list': worker_list}
+        return render(request, 'workers.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
 
 
 def add_worker(request):
@@ -843,6 +867,81 @@ def edit_overtime(request, overtime):
     return render(request, 'add_overtime.html', context)
 
 
+def building(request, building_id):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        try:
+            entry = Budynek.objects.get(id=building_id)
+            context = {'entry': entry}
+        except Budynek.DoesNotExist:
+            messages.add_message(request, messages.ERROR, 'Budynek nie istnieją!')
+            return redirect('index')
+        return render(request, 'building.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def buildings(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        building_list = Budynek.objects.all().order_by('-id')
+        context = {'building_list': building_list}
+        return render(request, 'buildings.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def add_building(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        address_list = AdresBudynek.objects.all()
+        worker_list = Pracownik.objects.all()
+        context = {'address_list': address_list, 'worker_list': worker_list}
+        if request.method == 'POST':
+            form = BudynekForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.adresbudynek.id = int(request.POST.get('adresbudynek'))
+                post.pracownik.id = int(request.POST.get('pracownik'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano budynek!')
+                return redirect('building', building_id=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_building.html', context)
+
+
+def edit_overtime(request, overtime):
+    try:
+        this_item = Pracownik.objects.get(id=overtime)
+        context = {'this_item': this_item}
+    except Pracownik.DoesNotExist:
+        messages.add_message(request, messages.ERROR, 'Taki pracownik nie istnieje!')
+        return redirect('index')
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        worker_list = Pracownik.objects.all()
+        context = {'worker_list': worker_list}
+        if request.method == 'POST':
+            form = NadgodzinyForm(request.POST, instance=this_item)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.ilosc = float(request.POST.get('ilosc'))
+                post.pracownik.id = int(request.POST.get('pracownik'))
+                post.save()
+                messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano nadgodziny!')
+                return redirect('overtime', overtime=post.id)
+            else:
+                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                return redirect('index')
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+    return render(request, 'add_overtime.html', context)
+
+
 def building_address(request, building_address_id):
     if (request.user.groups.filter(name='Pracownik').exists()):
         try:
@@ -852,6 +951,16 @@ def building_address(request, building_address_id):
             messages.add_message(request, messages.ERROR, 'Podane adres nie istnieje!')
             return redirect('index')
         return render(request, 'building_address.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def building_addresses(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        building_address_list = AdresBudynek.objects.all().order_by('-id')
+        context = {'building_address_list': building_address_list}
+        return render(request, 'building_addresses.html', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
@@ -914,6 +1023,16 @@ def address(request, address_id):
             messages.add_message(request, messages.ERROR, 'Podane adres nie istnieje!')
             return redirect('index')
         return render(request, 'address.html', context)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
+        return redirect('index')
+
+
+def addresses(request):
+    if (request.user.groups.filter(name='Pracownik').exists()):
+        address_list = Adres.objects.all().order_by('-id')
+        context = {'address_list': address_list}
+        return render(request, 'addresses.html', context)
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
         return redirect('index')
