@@ -24,8 +24,8 @@
 <body>
   <nav class="navbar navbar-light navbar-expand-md bg-faded">
 
-    <a class="navbar-brand abs" href="/">SYSTEMsM - Twoja pomoc w zarządzaniu spółdzielnią</a>
 
+     <img src="http://imgie.pl/images/2018/01/25/logo2354d.jpg" alt="SYSTEMsM - Twoja pomoc w zarządzaniu spółdzielnią" >
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -135,6 +135,9 @@
             {% if request.user|in_group:"Pracownik" %}
             <li class="nav-item">
               <a class="nav-link" href="/add/event">Nowe wydarzenie</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Wydarzenia</a>
             </li>
 
             <li class="nav-item">
