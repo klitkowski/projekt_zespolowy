@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^address/(?P<address_id>[0-9]+)/$', views.address, name='address'),
     url(r'^addresses/$', views.addresses, name='addresses'),
     url(r'^add/address/$', views.add_address, name='add_address'),
+    url(r'^building/(?P<building_id>[0-9]+)/$', views.building, name='building'),
     url(r'^buildings/$', views.buildings, name='buildings'),
     url(r'^add/building/$', views.add_building, name='add_building'),
     url(r'^add/building_address/$', views.add_building_address, name='add_building_address'),
