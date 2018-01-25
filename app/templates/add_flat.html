@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <form method="POST" class="post-form">
     {% csrf_token %}
     <div class="form-group">
-        <select name="budynek" id="id budynek" class="custom-select" required>
+        <select name="budynek" id="id_budynek" class="custom-select" required>
                 <option selected disabled>Wybierz budynek</option>
                 {% if building_list %}
                 {% for budynek in building_list %}
@@ -15,16 +14,17 @@
               </select>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id metraz" name="metraz" placeholder="Metraż" required pattern="[0-9]{9}"></input>
+        <input class="form-control" id="id_metraz" name="metraz" placeholder="Metraż" required pattern="[0-9]+([\.,][0-9]+)?"></input>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id liczba_pokoi" name="liczba_pokoi" placeholder="Liczba pokoi" required pattern="[0-9]{9}"></input>
+        <input class="form-control" id="id_liczba_pokoi" name="liczba_pokoi" placeholder="Liczba pokoi" required pattern="[0-9]+"></input>
+    </div>
+    <div class="form-check">       
+        <input class="form-check-input" name="piwnica" id="id_piwnica" type="checkbox">
+        <label class="form-check-label" for="piwnica">Piwnica:</label>
     </div>
     <div class="form-group">
-        <input class="form-control" id="id piwnica" name="piwnica" placeholder="Piwnica" required pattern="[0-9]{9}"></input>
-    </div>
-    <div class="form-group">
-        <input class="form-control" id="id numer_mieszkania" name="numer_mieszkania" placeholder="Numer mieszkania" required pattern="[0-9]{9}"></input>
+        <input class="form-control" id="id_nr_mieszkania" name="nr_mieszkania" placeholder="Numer mieszkania" required pattern="[0-9]+"></input>
     </div>
     <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>

@@ -435,8 +435,11 @@ def add_flat(request):
                 post.budynek.id = request.POST.get('budynek')
                 post.metraz = float(request.POST.get('metraz'))
                 post.liczba_pokoi = int(request.POST.get('liczba_pokoi'))
-                post.piwnica = request.POST.get('piwnica')
-                post.numer_mieszkania = int(request.POST.get('numer_mieszkania'))
+                if (request.POST.get('piwnica') == 'on'):
+                    post.piwnica = True
+                else:
+                    post.piwnica = False
+                post.numer_mieszkania = int(request.POST.get('nr_mieszkania'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano mieszkanie!')
                 return redirect('flat', flat_id=post.id)
