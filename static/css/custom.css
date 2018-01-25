@@ -11,3 +11,13 @@
 .custom-select.is-invalid {
   border-color: #dc3545 !important;
 }
+body {
+  background-image:url(background.jpg);
+  background-repeat: no-repeat;
+  min-height: 679px;
+  background-size: cover;
+}
+
+#logo {
+  image:url(logo.jpg)
+}

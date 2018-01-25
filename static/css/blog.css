@@ -20,6 +20,10 @@ h1 {
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
   border-right: 1px solid black;
+  background-image:url(tlo.jpg);
+  background-repeat: no-repeat;
+  min-height: 679px;
+  background-size: cover;
 
 }
 
