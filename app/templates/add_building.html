@@ -5,7 +5,7 @@
 <form method="POST" class="post-form">
     {% csrf_token %}
     <div class="form-group">
-        <select name="adres" id="id adres" class="custom-select" required>
+        <select name="adres" id="id_adres" class="custom-select" required>
                 <option selected disabled>Wybierz adres budynku</option>
                 {% if address_list %}
                 {% for address in address_list %}
@@ -15,8 +15,8 @@
               </select>
     </div>
     <div class="form-group">
-            <select name="pracownik" id="id pracownik" class="custom-select" required>
-                    <option selected disabled>Wybierz Pracownika</option>
+            <select name="administrator" id="id_administrator" class="custom-select" required>
+                    <option selected disabled>Wybierz Administratora budynku</option>
                     {% if worker_list %}
                     {% for worker in worker_list %}
                     <option value="{{ worker.id }}">{{ worker.imie }} {{ worker.nazwisko }}</option>

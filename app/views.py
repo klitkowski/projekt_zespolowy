@@ -900,8 +900,8 @@ def add_building(request):
             form = BudynekForm(request.POST)
             if form.is_valid():
                 post = form.save(commit=False)
-                post.adresbudynek.id = int(request.POST.get('adresbudynek'))
-                post.pracownik.id = int(request.POST.get('pracownik'))
+                post.adres.id = int(request.POST.get('adres'))
+                post.administrator.id = int(request.POST.get('administrator'))
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano budynek!')
                 return redirect('building', building_id=post.id)
