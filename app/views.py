@@ -48,13 +48,13 @@ def add_event(request):
                 post.opis = request.POST.get('opis')
                 post.nazwa = request.POST.get('nazwa')
                 post.data = request.POST.get('data')
-                if (request.POST.get('budynek') != None):
+                if (request.POST.get('budynek') is not None):
                     post.budynek.id = request.POST.get('budynek')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano wydarzenie!')
                 return redirect('event', event_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -84,7 +84,7 @@ def edit_event(request, event_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano wydarzenie!')
                 return redirect('event', event_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -134,7 +134,7 @@ def add_ticket(request):
             messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano zgłoszenie!')
             return redirect('index')
         else:
-            messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+            messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
             return redirect('index')
     return render(request, 'add_ticket.html')
 
@@ -159,7 +159,7 @@ def edit_ticket(request, ticket_id):
             messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano zgłoszenie!')
             return redirect('index')
         else:
-            messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+            messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
             return redirect('index')
     return render(request, 'add_ticket.html', context)
 
@@ -204,7 +204,7 @@ def add_invoice(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano fakture!')
                 return redirect('invoice', invoice_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -235,7 +235,7 @@ def edit_invoice(request, invoice_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano fakture!')
                 return redirect('invoice', invoice_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -283,7 +283,7 @@ def add_issuer(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano wystawce!')
                 return redirect('issuer', issuer_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -313,7 +313,7 @@ def edit_issuer(request, issuer_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano wystawce!')
                 return redirect('issuer', issuer_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -362,7 +362,7 @@ def add_owner(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano właściciela!')
                 return redirect('owner', owner_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -393,7 +393,7 @@ def edit_owner(request, owner_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano właściciela!')
                 return redirect('owner', owner_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -445,7 +445,7 @@ def add_flat(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano mieszkanie!')
                 return redirect('flat', flat_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -476,7 +476,7 @@ def edit_flat(request, flat_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano mieszkanie!')
                 return redirect('flat', flat_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -520,7 +520,7 @@ def add_counter(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano licznik!')
                 return redirect('counter', counter_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -546,7 +546,7 @@ def edit_counter(request, counter_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano licznik!')
                 return redirect('counter', counter_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -594,7 +594,7 @@ def add_counter_state(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stan licznika!')
                 return redirect('counter_state', counter_state_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -625,7 +625,7 @@ def edit_counter_state(request, counter_state_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano stan licznika!')
                 return redirect('counter_state', counter_state_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -709,7 +709,7 @@ def add_worker(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano pracownika!')
                 return redirect('index')
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -758,7 +758,7 @@ def add_position(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano stanowisko!')
                 return redirect('position', position_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -789,7 +789,7 @@ def edit_position(request, position_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano stanowisko!')
                 return redirect('positions', position_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -835,7 +835,7 @@ def add_overtime(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano nadgodziny pracownikowi!')
                 return redirect('overtime', overtime_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -863,7 +863,7 @@ def edit_overtime(request, overtime):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano nadgodziny!')
                 return redirect('overtime', overtime=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -910,7 +910,7 @@ def add_building(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano budynek!')
                 return redirect('building', building_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -938,7 +938,7 @@ def edit_overtime(request, overtime):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano nadgodziny!')
                 return redirect('overtime', overtime=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -983,7 +983,7 @@ def add_building_address(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano adres budynku!')
                 return redirect('building_address', building_address_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -1010,7 +1010,7 @@ def edit_building_address(request, building_address_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano adres budynku!')
                 return redirect('building_address', building_address_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -1055,7 +1055,7 @@ def add_address(request):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano adres!')
                 return redirect('address', address_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -1082,7 +1082,7 @@ def edit_address(request, address_id):
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie edytowano adres!')
                 return redirect('address', address_id=post.id)
             else:
-                messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+                messages.add_message(request, messages.ERROR, 'Nieprawidłowe dane!')
                 return redirect('index')
     else:
         messages.add_message(request, messages.ERROR, 'Nie możesz tego zrobić!')
@@ -1098,7 +1098,7 @@ def pdf(request, owner_id):
             owner = Wlasciciel.objects.get(id=owner_id)
             states = StanLicznik.objects.all().filter(mieszkanie_id=owner.mieszkanie.id)
         except Wlasciciel.DoesNotExist:
-            messages.add_message(request, messages.ERROR, 'Coś poszło nie tak!')
+            messages.add_message(request, messages.ERROR, 'Brak podanego właściciela')
             return redirect('index')
         pdfmetrics.registerFont(TTFont('Arial', 'static/fonts/arial.ttf'))
         response = HttpResponse(content_type='application/pdf')
@@ -1127,6 +1127,18 @@ def pdf(request, owner_id):
         canvas.drawText(textobject)
 
         data = [[u'Typ', u'Ilość', u'Cena', u'Wartość netto'], ]
+        data.append([
+            "Czynsz",
+            "Opłata stała",
+            "220.34",
+            "220.34"
+        ])
+        data.append([
+            "Ogrzewanie",
+            "Opłata stała",
+            "428.56",
+            "428.56"
+        ])
         for item in types:
             state = states.filter(typ_id=item.id)
             all += item.cena_netto * state[0].stan
@@ -1134,10 +1146,11 @@ def pdf(request, owner_id):
                 item.typ,
                 state[0].stan,
                 item.cena_netto,
-                state[0].stan * item.cena_netto
+                round(state[0].stan * item.cena_netto, 2)
             ])
+        all += 220.34 + 428.56
         data.append([u'', u'', u'Wartość brutto', str(round(all + all * 0.23, 2)) + str(' zł')])
-        table = Table(data, colWidths=[2 * cm, 11 * cm, 3 * cm, 3 * cm])
+        table = Table(data, colWidths=[2.3 * cm, 11 * cm, 3 * cm, 3 * cm])
         table.setStyle([
             ('FONT', (0, 0), (-1, -1), 'Arial'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
