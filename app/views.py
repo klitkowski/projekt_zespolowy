@@ -48,7 +48,8 @@ def add_event(request):
                 post.opis = request.POST.get('opis')
                 post.nazwa = request.POST.get('nazwa')
                 post.data = request.POST.get('data')
-                post.budynek.id = request.POST.get('budynek')
+                if (request.POST.get('budynek') != None):
+                    post.budynek.id = request.POST.get('budynek')
                 post.save()
                 messages.add_message(request, messages.SUCCESS, 'Pomyślnie dodano wydarzenie!')
                 return redirect('event', event_id=post.id)

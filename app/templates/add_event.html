@@ -14,7 +14,7 @@
         <input type="date" class="form-control" id="id data" name="data" placeholder="Data wydarzenia" required value="{% if this_item %}{{ this_item.data }}{% endif %}">
     </div>
     <div class="form-group">
-            <select name="budynek" id="id budynek" class="custom-select" required>
+            <select name="budynek" id="id budynek" class="custom-select">
                     {% if this_item %}
                     <option selected value="{{ this_item.budynek.id }}">{{ this_item.budynek.adres.miasto }} ul. {{ this_item.budynek.adres.ulica }} (Nie zmieniaj)</option>
                     {% else %}
