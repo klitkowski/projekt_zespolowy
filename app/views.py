@@ -1114,17 +1114,17 @@ def pdf(request, owner_id):
         textobject.textLine(u'Grunwaldzka 123')
         textobject.textLine(u'80-180 Gdańsk')
         textobject.textLine(u' ')
-        textobject.textLine(u'Wpłaty na podany numer konta: PL61 1090 1014 0000 0712 1981 2874')        
+        textobject.textLine(u'Wpłaty na podany numer konta: PL61 1090 1014 0000 0712 1981 2874')
         canvas.drawText(textobject)
 
         textobject = canvas.beginText(1.5 * cm, -5.5 * cm)
         textobject.textLine(u'Numer faktury: %s/01/2018' % owner.id)
-        textobject.textLine(u' ');
+        textobject.textLine(u' ')
         textobject.textLine(u'%s %s' % (owner.imie, owner.nazwisko))
         textobject.textLine(u'%s %s, ul. %s/%s' % (owner.mieszkanie.budynek.adres.kod_pocztowy, owner.mieszkanie.budynek.adres.miasto, owner.mieszkanie.budynek.adres.ulica, owner.mieszkanie.nr_mieszkania))
         textobject.textLine(u'%s, %s' % (owner.telefon, owner.email))
         canvas.drawText(textobject)
-        
+
         data = [[u'Typ', u'Ilość', u'Cena', u'Wartość netto'], ]
         for item in types:
             state = states.filter(typ_id=item.id)
