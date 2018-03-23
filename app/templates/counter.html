@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="card card-body">
 <li>Typ: {{ entry.typ }}</li>
 <li>Cena netto: {{ entry.cena_netto }}</li>
 {% load app_filters %}
@@ -12,5 +12,6 @@
     <button type="submit" class="btn btn-danger">Usuń</button>
 </form>
 {% endif %}
+</div>
 
 {% endblock content %}

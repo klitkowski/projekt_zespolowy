@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="card card-body">
 <li>{{ entry.imie }} {{ entry.nazwisko }}</li>
 <li>{{ entry.mieszkanie.budynek.adres.kod_pocztowy }} {{ entry.mieszkanie.budynek.adres.miasto }} ul. {{ entry.mieszkanie.budynek.adres.ulica }}</li>
 <li>{{ entry.telefon }} {{ entry.email }}</li>
@@ -13,8 +13,8 @@
     <input type="hidden" value="{{ entry | to_class_name }}" name="name"></input>
     <button type="submit" class="btn btn-danger">Usuń</button>
 </form>
-<a class="btn btn-primary" href="{% url 'pdf' entry.id %}" role="button">Wygeneruj fakturę</a>
+<a style="margin-left: 15px" class="btn btn-primary" href="{% url 'pdf' entry.id %}" role="button">Wygeneruj fakturę</a>
 {% endif %}
 </div>
-
+</div>
 {% endblock content %}

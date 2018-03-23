@@ -1,5 +1,6 @@
 {% extends "base.html" %} 
 {% block content %}
+<div class="card card-body">
 <form method="POST" class="post-form">
     {% csrf_token %}
     <div class="form-group">
@@ -10,5 +11,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>
-
+</div>
 {% endblock content %}
